@@ -4,12 +4,21 @@ namespace Xi\Collections;
 /**
  * Implements a set of collection operations relying only on traversability.
  */
-interface Enumerable extends \IteratorAggregate
+interface Enumerable extends \IteratorAggregate, \Countable
 {
     /**
      * @return array
      */
     public function toArray();
+
+    /**
+     * Calls a provided callback with this object as a parameter. Can be used
+     * for inspecting the object's state eg. for debugging purposes.
+     *
+     * @param callback($self) $callback
+     * @return Enumerable
+     */
+    public function tap($callback);
 
     /**
      * Performs an operation once per key-value pair
@@ -58,5 +67,29 @@ interface Enumerable extends \IteratorAggregate
      *
      * @return mixed|null
      */
-    public function head();
+    public function first();
+
+    /**
+     * Returns the last element in the collection.
+     *
+     * @return mixed|null
+     */
+    public function last();
+
+    /**
+     * Counts the amount of elements in the collection that satisfy a given
+     * predicate. If no predicate is given, returns the amount of elements.
+     *
+     * @param callback($value, $key) $predicate
+     * @return int
+     */
+    public function count($predicate = null);
+
+    /**
+     * Joins the string representation of the elements with an optional
+     * delimiter
+     * 
+     * @return string
+     */
+    public function join($delim = '');
 }

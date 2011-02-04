@@ -1,11 +1,20 @@
 <?php
 namespace Xi\Collections;
 
+/**
+ * Provides a trivial implementation of an Enumerable
+ */
 abstract class AbstractEnumerable implements Enumerable
 {
     public function toArray()
     {
         return iterator_to_array($this->getIterator());
+    }
+    
+    public function tap($callback)
+    {
+        $callback($this);
+        return $this;
     }
 
     public function each($callback, $userdata = null)
@@ -53,10 +62,34 @@ abstract class AbstractEnumerable implements Enumerable
         return true;
     }
     
-    public function head()
+    public function first()
     {
         foreach ($this as $value) {
             return $value;
         }
+    }
+
+    public function last()
+    {
+        $result = null;
+        foreach ($this as $value) {
+            $result = $value;
+        }
+        return $result;
+    }
+
+    public function count($predicate = null)
+    {
+        if (null === $predicate) {
+            return count($this->toArray());
+        }
+
+        $count = 0;
+        foreach ($this as $key => $value) {
+            if ($predicate($value, $key)) {
+                $count++;
+            }
+        }
+        return $count;
     }
 }
