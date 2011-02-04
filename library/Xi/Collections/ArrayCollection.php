@@ -63,7 +63,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     }
 
     /**
-     * @return Collection
+     * @return ArrayCollection
      */
     public function unique()
     {
@@ -71,8 +71,16 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function reverse()
+    {
+        return static::create(array_reverse($this->_elements));
+    }
+
+    /**
      * @param Collection $other
-     * @return Collection
+     * @return ArrayCollection
      */
     public function merge(Collection $other)
     {
