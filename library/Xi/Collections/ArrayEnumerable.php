@@ -3,7 +3,8 @@ namespace Xi\Collections;
 
 /**
  * Implements the Enumerable operations with native array functions wherever
- * possible.
+ * possible. Also adds a few methods that are easy specifically due to the
+ * array-based implementation.
  */
 class ArrayEnumerable implements Enumerable
 {

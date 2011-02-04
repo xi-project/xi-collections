@@ -41,6 +41,7 @@ abstract class AbstractEnumerable implements Enumerable
                 return $value;
             }
         }
+        return null;
     }
 
     public function exists($predicate)
@@ -50,6 +51,7 @@ abstract class AbstractEnumerable implements Enumerable
                 return true;
             }
         }
+        return false;
     }
 
     public function forAll($predicate)
@@ -67,6 +69,7 @@ abstract class AbstractEnumerable implements Enumerable
         foreach ($this as $value) {
             return $value;
         }
+        return null;
     }
 
     public function last()

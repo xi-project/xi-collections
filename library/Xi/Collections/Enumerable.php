@@ -84,12 +84,4 @@ interface Enumerable extends \IteratorAggregate, \Countable
      * @return int
      */
     public function count($predicate = null);
-
-    /**
-     * Joins the string representation of the elements with an optional
-     * delimiter
-     * 
-     * @return string
-     */
-    public function join($delim = '');
 }

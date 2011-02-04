@@ -35,11 +35,6 @@ class OuterEnumerable implements Enumerable
         return $this;
     }
 
-    public function count($predicate = null)
-    {
-        return $this->enumerable->count($predicate);
-    }
-
     public function each($callback, $userdata = null)
     {
         $this->enumerable->each($callback, $userdata);
@@ -56,11 +51,6 @@ class OuterEnumerable implements Enumerable
         return $this->enumerable->find($predicate);
     }
 
-    public function first()
-    {
-        return $this->enumerable->first();
-    }
-
     public function forAll($predicate)
     {
         return $this->enumerable->forAll($predicate);
@@ -69,5 +59,20 @@ class OuterEnumerable implements Enumerable
     public function getIterator()
     {
         return $this->enumerable->getIterator();
+    }
+
+    public function first()
+    {
+        return $this->enumerable->first();
+    }
+
+    public function last()
+    {
+        return $this->enumerable->last();
+    }
+
+    public function count($predicate = null)
+    {
+        return $this->enumerable->count($predicate);
     }
 }
