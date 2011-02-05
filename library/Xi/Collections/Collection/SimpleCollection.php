@@ -1,5 +1,5 @@
 <?php
-namespace Xi\Collections;
+namespace Xi\Collections\Collection;
 
 /**
  * Provides a trivial concrete implementation of a Collection. Accepts any

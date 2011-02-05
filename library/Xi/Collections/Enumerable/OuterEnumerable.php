@@ -1,5 +1,7 @@
 <?php
-namespace Xi\Collections;
+namespace Xi\Collections\Enumerable;
+
+use Xi\Collections\Enumerable;
 
 /**
  * Forwards all operations to another Enumerable provided at construction. In

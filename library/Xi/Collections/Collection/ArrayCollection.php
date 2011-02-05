@@ -1,5 +1,8 @@
 <?php
-namespace Xi\Collections;
+namespace Xi\Collections\Collection;
+
+use Xi\Collections\Collection,
+    Xi\Collections\Enumerable\ArrayEnumerable;
 
 /**
  * Implements the Collection operations with native array functions wherever

@@ -1,5 +1,8 @@
 <?php
-namespace Xi\Collections;
+namespace Xi\Collections\Collection;
+
+use Xi\Collections\Collection,
+    Xi\Collections\Enumerable\AbstractEnumerable;
 
 /**
  * Provides a trivial implementation of a Collection

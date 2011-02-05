@@ -1,5 +1,5 @@
 <?php
-namespace Xi\Collections;
+namespace Xi\Collections\Collection;
 
 /**
  * A collection decorator that implements operations specifically dealing with

@@ -1,5 +1,5 @@
 <?php
-namespace Xi\Collections;
+namespace Xi\Collections\Enumerable;
 
 /**
  * Provides a trivial concrete implementation of an Enumerable. Accepts any
