@@ -56,8 +56,8 @@ class ArrayEnumerable implements Enumerable
 
     public function exists($callback)
     {
-        foreach ($this->_elements as $key => $value) {
-            if ($callback($value, $key)) {
+        foreach ($this->_elements as $value) {
+            if ($callback($value)) {
                 return true;
             }
         }
@@ -66,8 +66,8 @@ class ArrayEnumerable implements Enumerable
 
     public function forAll($callback)
     {
-        foreach ($this->_elements as $key => $value) {
-            if (!$callback($value, $key)) {
+        foreach ($this->_elements as $value) {
+            if (!$callback($value)) {
                 return false;
             }
         }
@@ -76,8 +76,8 @@ class ArrayEnumerable implements Enumerable
 
     public function find($callback)
     {
-        foreach ($this->_elements as $key => $value) {
-            if ($callback($value, $key)) {
+        foreach ($this->_elements as $value) {
+            if ($callback($value)) {
                 return $value;
             }
         }
@@ -97,8 +97,8 @@ class ArrayEnumerable implements Enumerable
     public function countAll($predicate)
     {
         $count = 0;
-        foreach ($this as $key => $value) {
-            if ($predicate($value, $key)) {
+        foreach ($this as $value) {
+            if ($predicate($value)) {
                 $count++;
             }
         }

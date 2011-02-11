@@ -29,6 +29,17 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @dataProvider mixedElements
+     */
+    public function shouldBeAbleToCountElements($values)
+    {
+        $enum = $this->getEnumerable($values);
+        $result = count($enum);
+        $this->assertEquals(count($values), $result);
+    }
+
+    /**
+     * @test
      */
     public function shouldProvideSelfToCallbackWhenTapped()
     {
@@ -39,6 +50,21 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
         });
         $this->assertSame($enum, $result->get());
     }
+
+    /**
+     * @test
+     * @dataProvider mixedElements
+     */
+    public function shouldBeAbleToReconstructValuesWithTraversal($values)
+    {
+        $result = array();
+        $enum = $this->getEnumerable($values);
+        foreach ($enum as $key => $value) {
+            $result[$key] = $value;
+        }
+        $this->assertEquals($values, $result);
+    }
+
 
     /**
      * @test
@@ -85,6 +111,7 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(array(), null),
+            array(array(null, '', new \stdClass()), null),
             array(array(1), 1),
             array(array(1, 2), 1),
             array(array(null, '', new \stdClass(), 1), 1)
@@ -93,12 +120,96 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @datProvider integerHaystack
+     * @dataProvider integerHaystack
      */
     public function shouldBeAbleToFindMatchingValue($values, $expect)
     {
         $enum = $this->getEnumerable($values);
         $result = $enum->find('is_integer');
         $this->assertEquals($expect, $result);
+    }
+
+    /**
+     * @test
+     * @dataProvider integerHaystack
+     */
+    public function shouldBeAbleToCheckForExistenceOfMatchingValue($values, $expect)
+    {
+        $enum = $this->getEnumerable($values);
+        $result = $enum->exists('is_integer');
+        $this->assertEquals(!empty($expect), $result);
+    }
+    
+    public function integerSets()
+    {
+        return array(
+            array(array(), 0),
+            array(array(1), 1),
+            array(array(1, 2, 3), 3),
+            array(array('nope'), 0),
+            array(array(1, 2, 3, 'nope'), 3)
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider integerSets
+     */
+    public function shouldBeAbleToAssertPredicateForAllValues($values, $integers)
+    {
+        $enum = $this->getEnumerable($values);
+        $result = $enum->forAll('is_integer');
+        $this->assertEquals(count($values) == $integers, $result);
+    }
+
+    /**
+     * @test
+     * @dataProvider integerSets
+     */
+    public function shouldBeAbleToCountValuesMatchingPredicate($values, $integers)
+    {
+        $enum = $this->getEnumerable($values);
+        $result = $enum->countAll('is_integer');
+        $this->assertEquals($integers, $result);
+    }
+
+    public function firstValues()
+    {
+        return array(
+            array(array(), null),
+            array(array(1), 1),
+            array(array(1, 2), 1)
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider firstValues
+     */
+    public function shouldBeAbleToRetrieveFirstValue($values, $first)
+    {
+        $enum = $this->getEnumerable($values);
+        $result = $enum->first();
+        $this->assertEquals($first, $result);
+    }
+
+    public function lastValues()
+    {
+        return array(
+            array(array(), null),
+            array(array(1), 1),
+            array(array(1, 2), 2)
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider lastValues
+     */
+    public function shouldBeAbleToRetrieveLastValue($values, $last)
+    {
+        $enum = $this->getEnumerable($values);
+        $result = $enum->last();
+        $this->assertEquals($last, $result);
     }
 }

@@ -37,9 +37,9 @@ interface Enumerable extends \IteratorAggregate, \Countable
     public function reduce($callback, $initial = null);
 
     /**
-     * Returns the first value whose key-value pair satisfies a given predicate
+     * Returns the first value that satisfies a given predicate
      *
-     * @param callback($value, $key) $predicate
+     * @param callback($value) $predicate
      * @return mixed|null
      */
     public function find($predicate);
@@ -48,7 +48,7 @@ interface Enumerable extends \IteratorAggregate, \Countable
      * Checks whether the collection has at least one element satisfying a given
      * predicate
      *
-     * @param callback($value, $key) $predicate
+     * @param callback($value) $predicate
      * @return boolean
      */
     public function exists($predicate);
@@ -63,6 +63,15 @@ interface Enumerable extends \IteratorAggregate, \Countable
     public function forAll($predicate);
 
     /**
+     * Counts the amount of elements in the collection that satisfy a given
+     * predicate
+     *
+     * @param callback($value, $key) $predicate
+     * @return int
+     */
+    public function countAll($predicate);
+
+    /**
      * Returns the first element in the collection
      *
      * @return mixed|null
@@ -75,13 +84,4 @@ interface Enumerable extends \IteratorAggregate, \Countable
      * @return mixed|null
      */
     public function last();
-
-    /**
-     * Counts the amount of elements in the collection that satisfy a given
-     * predicate.
-     *
-     * @param callback($value, $key) $predicate
-     * @return int
-     */
-    public function countAll($predicate);
 }

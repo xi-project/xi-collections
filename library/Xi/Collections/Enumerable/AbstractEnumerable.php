@@ -38,8 +38,8 @@ abstract class AbstractEnumerable implements Enumerable
 
     public function find($predicate)
     {
-        foreach ($this as $key => $value) {
-            if ($predicate($value, $key)) {
+        foreach ($this as $value) {
+            if ($predicate($value)) {
                 return $value;
             }
         }
@@ -48,8 +48,8 @@ abstract class AbstractEnumerable implements Enumerable
 
     public function exists($predicate)
     {
-        foreach ($this as $key => $value) {
-            if ($predicate($value, $key)) {
+        foreach ($this as $value) {
+            if ($predicate($value)) {
                 return true;
             }
         }
@@ -58,8 +58,8 @@ abstract class AbstractEnumerable implements Enumerable
 
     public function forAll($predicate)
     {
-        foreach ($this as $key => $value) {
-            if (!$predicate($value, $key)) {
+        foreach ($this as $value) {
+            if (!$predicate($value)) {
                 return false;
             }
         }
@@ -86,8 +86,8 @@ abstract class AbstractEnumerable implements Enumerable
     public function countAll($predicate)
     {
         $count = 0;
-        foreach ($this as $key => $value) {
-            if ($predicate($value, $key)) {
+        foreach ($this as $value) {
+            if ($predicate($value)) {
                 $count++;
             }
         }
