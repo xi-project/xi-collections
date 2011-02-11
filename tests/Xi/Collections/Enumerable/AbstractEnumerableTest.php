@@ -81,5 +81,24 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, $values);
     }
 
-    
+    public function integerHaystack()
+    {
+        return array(
+            array(array(), null),
+            array(array(1), 1),
+            array(array(1, 2), 1),
+            array(array(null, '', new \stdClass(), 1), 1)
+        );
+    }
+
+    /**
+     * @test
+     * @datProvider integerHaystack
+     */
+    public function shouldBeAbleToFindMatchingValue($values, $expect)
+    {
+        $enum = $this->getEnumerable($values);
+        $result = $enum->find('is_integer');
+        $this->assertEquals($expect, $result);
+    }
 }
