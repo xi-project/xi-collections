@@ -20,7 +20,7 @@ class OuterEnumerable implements Enumerable
      */
     public function __construct($enumerable)
     {
-        $this->enumerable;
+        $this->enumerable = $enumerable;
     }
 
     /**
@@ -31,9 +31,14 @@ class OuterEnumerable implements Enumerable
         return $this->enumerable;
     }
 
+    public function toArray()
+    {
+        return $this->enumerable->toArray();
+    }
+
     public function tap($callback)
     {
-        $this->enumerable->tap($callback);
+        $callback($this);
         return $this;
     }
 
@@ -41,6 +46,11 @@ class OuterEnumerable implements Enumerable
     {
         $this->enumerable->each($callback, $userdata);
         return $this;
+    }
+
+    public function reduce($callback, $initial = null)
+    {
+        return $this->enumerable->reduce($callback, $initial);
     }
 
     public function exists($predicate)
@@ -73,8 +83,13 @@ class OuterEnumerable implements Enumerable
         return $this->enumerable->last();
     }
 
-    public function count($predicate = null)
+    public function count()
     {
-        return $this->enumerable->count($predicate);
+        return $this->enumerable->count();
+    }
+
+    public function countAll($predicate)
+    {
+        return $this->enumerable->countAll($predicate);
     }
 }

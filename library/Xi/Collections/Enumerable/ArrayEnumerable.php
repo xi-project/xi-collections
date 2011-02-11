@@ -94,12 +94,8 @@ class ArrayEnumerable implements Enumerable
         return end($this->_elements);
     }
 
-    public function count($predicate = null)
+    public function countAll($predicate)
     {
-        if (null === $predicate) {
-            return count($this->_elements);
-        }
-
         $count = 0;
         foreach ($this as $key => $value) {
             if ($predicate($value, $key)) {
@@ -107,5 +103,10 @@ class ArrayEnumerable implements Enumerable
             }
         }
         return $count;
+    }
+
+    public function count()
+    {
+        return count($this->_elements);
     }
 }

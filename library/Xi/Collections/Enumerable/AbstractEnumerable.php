@@ -83,12 +83,8 @@ abstract class AbstractEnumerable implements Enumerable
         return $result;
     }
 
-    public function count($predicate = null)
+    public function countAll($predicate)
     {
-        if (null === $predicate) {
-            return count($this->toArray());
-        }
-
         $count = 0;
         foreach ($this as $key => $value) {
             if ($predicate($value, $key)) {
@@ -96,5 +92,10 @@ abstract class AbstractEnumerable implements Enumerable
             }
         }
         return $count;
+    }
+
+    public function count()
+    {
+        return count($this->toArray());
     }
 }

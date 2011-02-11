@@ -78,10 +78,10 @@ interface Enumerable extends \IteratorAggregate, \Countable
 
     /**
      * Counts the amount of elements in the collection that satisfy a given
-     * predicate. If no predicate is given, returns the amount of elements.
+     * predicate.
      *
      * @param callback($value, $key) $predicate
      * @return int
      */
-    public function count($predicate = null);
+    public function countAll($predicate);
 }

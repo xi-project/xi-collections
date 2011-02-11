@@ -20,7 +20,7 @@ class IndexedCollection extends OuterCollection
         if (!($elements instanceof Collection)) {
             $elements = ArrayCollection::create($elements);
         }
-        return parent::create($elements);
+        return new static($elements);
     }
 
     /**
