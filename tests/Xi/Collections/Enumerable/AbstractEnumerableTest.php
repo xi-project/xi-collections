@@ -9,21 +9,25 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
      */
     abstract public function getEnumerable($elements = array());
 
+    /**
+     * @test
+     */
+    public function shouldProvideSelfToCallbackWhenTapped()
+    {
+        $result = new Result();
+        $enum = $this->getEnumerable();
+        $enum->tap(function($v) use($result) {
+            $result->resolve($v);
+        });
+        $this->assertSame($enum, $result->get());
+    }
+
     public function mixedElements()
     {
         return array(
             array(array()),
             array(array('foo')),
             array(array('foo' => 'bar', 'bar' => 'foo', 1, 2, 3))
-        );
-    }
-
-    public function integerElements()
-    {
-        return array(
-            array(array()),
-            array(array(1)),
-            array(array(1, 2, 3, 4))
         );
     }
 
@@ -36,19 +40,6 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
         $enum = $this->getEnumerable($values);
         $result = count($enum);
         $this->assertEquals(count($values), $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldProvideSelfToCallbackWhenTapped()
-    {
-        $result = new Result();
-        $enum = $this->getEnumerable();
-        $enum->tap(function($v) use($result) {
-            $result->resolve($v);
-        });
-        $this->assertSame($enum, $result->get());
     }
 
     /**
@@ -82,19 +73,6 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProvider integerElements
-     */
-    public function shouldBeAbleToSumIntegersWithReduce($values)
-    {
-        $enum = $this->getEnumerable($values);
-        $result = $enum->reduce(function($result, $value) {
-            return $result + $value;
-        }, 0);
-        $this->assertEquals($result, array_sum($values));
-    }
-
-    /**
-     * @test
      * @dataProvider mixedElements
      */
     public function shouldBeAbleToReconstructValuesWithReduce($values)
@@ -105,6 +83,28 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
             return $result;
         }, array());
         $this->assertEquals($result, $values);
+    }
+
+    public function integerElements()
+    {
+        return array(
+            array(array()),
+            array(array(1)),
+            array(array(1, 2, 3, 4))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider integerElements
+     */
+    public function shouldBeAbleToSumIntegersWithReduce($values)
+    {
+        $enum = $this->getEnumerable($values);
+        $result = $enum->reduce(function($result, $value) {
+            return $result + $value;
+        }, 0);
+        $this->assertEquals($result, array_sum($values));
     }
 
     public function integerHaystack()

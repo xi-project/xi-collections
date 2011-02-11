@@ -20,11 +20,16 @@ class SimpleCollection extends AbstractCollection
         $this->traversable = $traversable;
     }
 
-    /**
-     * @return \IteratorIterator
-     */
     public function getIterator()
     {
+        if (is_array($this->traversable)) {
+            return new \ArrayIterator($this->traversable);
+        }
         return new \IteratorIterator($this->traversable);
+    }
+
+    public static function create($elements)
+    {
+        return new static($elements);
     }
 }
