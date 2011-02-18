@@ -38,21 +38,19 @@ class ArrayCollection extends ArrayEnumerable implements Collection
 
     public function map($callback)
     {
-        $result = array();
-        foreach ($this->_elements as $key => $value) {
-            $result[$key] = $callback($value, $key);
-        }
-        return static::create($result);
+        return static::create(array_map($callback, $this->_elements, array_keys($this->_elements)));
     }
 
     public function concatenate($other)
     {
-        return static::create(array_merge($this->values(), $other->values()));
+        $left = array_values($this->_elements);
+        $right = array_values($other->toArray());
+        return static::create(array_merge($left, $right));
     }
 
     public function union($other)
     {
-        return static::create($this->_elements + $other->toArray());
+        return static::create($other->toArray() + $this->_elements);
     }
 
     public function values()

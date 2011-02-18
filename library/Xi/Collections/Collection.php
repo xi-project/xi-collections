@@ -10,7 +10,8 @@ interface Collection extends Enumerable
 {
     /**
      * Create a new Collection of this type. Implementations should take
-     * advantage of late static binding.
+     * advantage of late static binding, ie. this method should return an
+     * instance of the class that is the receiver of the static method call.
      *
      * @param array|Traversable $elements
      * @return Collection
@@ -40,14 +41,16 @@ interface Collection extends Enumerable
      * Implementors may provide the callback with an optional $key argument at
      * their discretion.
      *
+     * Is not guaranteed to maintain index associations.
+     *
      * @param callback($value) $predicate optional
      * @return Collection
      */
     public function filter($predicate = null);
 
     /**
-     * Creates a Collection with elements from this and another one. Is not
-     * required to maintain index associations.
+     * Creates a Collection with elements from this and another one. Does not
+     * maintain index associations.
      *
      * @param Collection $other
      * @return Collection
@@ -55,6 +58,9 @@ interface Collection extends Enumerable
     public function concatenate($other);
 
     /**
+     * Creates a Collection with key-value pairs in the $other Collection
+     * overriding ones in $this Collection
+     *
      * @param Collection $other
      * @return Collection
      */

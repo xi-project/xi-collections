@@ -57,7 +57,7 @@ interface Enumerable extends \IteratorAggregate, \Countable
      * Checks whether all of the elements in the collection satisfy a given
      * predicate
      *
-     * @param callback($value, $key) $predicate
+     * @param callback($value) $predicate
      * @return boolean
      */
     public function forAll($predicate);
@@ -66,7 +66,7 @@ interface Enumerable extends \IteratorAggregate, \Countable
      * Counts the amount of elements in the collection that satisfy a given
      * predicate
      *
-     * @param callback($value, $key) $predicate
+     * @param callback($value) $predicate
      * @return int
      */
     public function countAll($predicate);
