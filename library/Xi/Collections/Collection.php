@@ -28,6 +28,14 @@ interface Collection extends Enumerable
     public function apply($callback);
 
     /**
+     * Creates a new Collection with up to $number first elements from this one.
+     *
+     * @param int $number
+     * @return Collection
+     */
+    public function take($number);
+
+    /**
      * @param callback($value, $key) $callback
      * @return Collection
      */

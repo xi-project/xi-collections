@@ -14,6 +14,18 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
         return static::create($callback($this));
     }
 
+    public function take($number)
+    {
+        $results = array();
+        foreach ($this as $key => $value) {
+            if ($number-- <= 0) {
+                break;
+            }
+            $results[$key] = $value;
+        }
+        return static::create($results);
+    }
+
     public function map($callback)
     {
         $results = array();

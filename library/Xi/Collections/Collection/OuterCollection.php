@@ -51,6 +51,11 @@ class OuterCollection extends OuterEnumerable implements Collection
         return static::create($this->collection->apply($callback));
     }
 
+    public function take($number)
+    {
+        return static::create($this->collection->take($number));
+    }
+
     public function map($callback)
     {
         return static::create($this->collection->map($callback));

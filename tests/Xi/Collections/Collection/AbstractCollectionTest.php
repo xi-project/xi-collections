@@ -28,6 +28,29 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $this->assertEquals($elements, array_flip($result->toArray()));
     }
 
+    public function takeElements()
+    {
+        return array(
+            array(array(), 0, array()),
+            array(array(1), 0, array()),
+            array(array(1), 1, array(1)),
+            array(array(1, 2, 3), 3, array(1, 2, 3)),
+            array(array(1, 2, 3), 4, array(1, 2, 3)),
+            array(array(1, 2, 3), -1, array())
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider takeElements
+     */
+    public function shouldBeAbleToTakeNFirstElements($elements, $number, $expect)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->take($number);
+        $this->assertEquals($expect, $result->toArray());
+    }
+
     public function integerIncrementSet()
     {
         return array(

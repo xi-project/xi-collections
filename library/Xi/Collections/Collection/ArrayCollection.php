@@ -29,6 +29,15 @@ class ArrayCollection extends ArrayEnumerable implements Collection
         return static::create($callback($this));
     }
 
+    public function take($number)
+    {
+        $result = array();
+        if ($number > 0) {
+            $result = array_slice($this->_elements, 0, $number, true);
+        }
+        return static::create($result);
+    }
+
     public function filter($callback = null)
     {
         // Passing null to array_filter results in error, but omitting the second argument is ok
