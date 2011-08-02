@@ -1,5 +1,6 @@
 <?php
 namespace Xi\Collections\Collection;
+use Xi\Collections\Functions;
 
 /**
  * Provides a trivial concrete implementation of a Collection. Accepts any
@@ -31,5 +32,10 @@ class SimpleCollection extends AbstractCollection
     public static function create($elements)
     {
         return new static($elements);
+    }
+    
+    public static function getCreator()
+    {
+        return Functions::getCallback(get_called_class(), 'create');
     }
 }

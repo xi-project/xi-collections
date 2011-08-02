@@ -2,6 +2,7 @@
 namespace Xi\Collections\Collection;
 
 use Xi\Collections\Collection,
+    Xi\Collections\Functions,
     Xi\Collections\Enumerable\ArrayEnumerable;
 
 /**
@@ -22,6 +23,11 @@ class ArrayCollection extends ArrayEnumerable implements Collection
             $elements = iterator_to_array($elements, true);
         }
         return new static((array) $elements);
+    }
+    
+    public static function getCreator()
+    {
+        return Functions::getCallback(get_called_class(), 'create');
     }
     
     public function apply($callback)
@@ -70,6 +76,26 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     public function keys()
     {
         return static::create(array_keys($this->_elements));
+    }
+
+    public function indexBy($callback)
+    {
+        return $this->apply(Functions::indexBy($callback));
+    }
+
+    public function groupBy($callback)
+    {
+        return $this->apply(Functions::groupBy($callback, $this->getCreator()));
+    }
+
+    public function pick($key)
+    {
+        return $this->map(Functions::pick($key));
+    }
+    
+    public function flatten()
+    {
+        return $this->apply(Functions::flatten());
     }
 
     /**

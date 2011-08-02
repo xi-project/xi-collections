@@ -2,6 +2,7 @@
 namespace Xi\Collections\Collection;
 
 use Xi\Collections\Collection,
+    Xi\Collections\Functions,
     Xi\Collections\Enumerable\AbstractEnumerable;
 
 /**
@@ -9,6 +10,11 @@ use Xi\Collections\Collection,
  */
 abstract class AbstractCollection extends AbstractEnumerable implements Collection
 {
+    public static function getCreator()
+    {
+        return Functions::getCallback(get_called_class(), 'create');
+    }
+    
     public function apply($callback)
     {
         return static::create($callback($this));
@@ -89,5 +95,25 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
             $results[] = $key;
         }
         return static::create($results);
+    }
+
+    public function indexBy($callback)
+    {
+        return $this->apply(Functions::indexBy($callback));
+    }
+
+    public function groupBy($callback)
+    {
+        return $this->apply(Functions::groupBy($callback, $this->getCreator()));
+    }
+
+    public function pick($key)
+    {
+        return $this->map(Functions::pick($key));
+    }
+    
+    public function flatten()
+    {
+        return $this->apply(Functions::flatten());
     }
 }

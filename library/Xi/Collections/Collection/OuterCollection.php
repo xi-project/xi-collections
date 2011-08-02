@@ -2,6 +2,7 @@
 namespace Xi\Collections\Collection;
 
 use Xi\Collections\Collection,
+    Xi\Collections\Functions,
     Xi\Collections\Enumerable\OuterEnumerable;
 
 /**
@@ -45,6 +46,11 @@ class OuterCollection extends OuterEnumerable implements Collection
         }
         throw new \InvalidArgumentException("OuterCollection can only wrap Collection instances");
     }
+    
+    public static function getCreator()
+    {
+        return Functions::getCallback(get_called_class(), 'create');
+    }
 
     public function apply($callback)
     {
@@ -84,5 +90,25 @@ class OuterCollection extends OuterEnumerable implements Collection
     public function keys()
     {
         return static::create($this->collection->keys());
+    }
+
+    public function indexBy($callback)
+    {
+        return static::create($this->collection->indexBy($callback));
+    }
+
+    public function groupBy($callback)
+    {
+        return static::create($this->collection->groupBy($callback));
+    }
+
+    public function pick($key)
+    {
+        return static::create($this->collection->pick($key));
+    }
+    
+    public function flatten()
+    {
+        return static::create($this->collection->flatten());
     }
 }

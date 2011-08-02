@@ -2,9 +2,14 @@
 namespace Xi\Collections;
 
 /**
- * Extends the Enumerable collection operations to a superset that includes all
+ * Extends the Enumerable collection operations to a superset that includes
  * operations that yield other collections in return. This means Collections
  * can be transformed into other Collections.
+ * 
+ * As a principle, Collection operations should be invariant on the Collection's
+ * type - ie. methods should return an instance of the type of Collection that
+ * the method call was made on. This principle should only be rejected case by
+ * case and for clear, documented reasons.
  */
 interface Collection extends Enumerable
 {
@@ -17,6 +22,14 @@ interface Collection extends Enumerable
      * @return Collection
      */
     public static function create($elements);
+    
+    /**
+     * Get a callback that references the static create method for the class
+     * that is the receiver of the static method call.
+     * 
+     * @return Closure
+     */
+    public static function getCreator();
 
     /**
      * Creates a new Collection of this type from the output of a given callback
@@ -83,4 +96,27 @@ interface Collection extends Enumerable
      * @return Collection
      */
     public function keys();
+
+    /**
+     * @param callback($value, $key) $callback
+     * @return Collection
+     */
+    public function indexBy($callback);
+
+    /**
+     * @param callback($value, $key) $callback
+     * @return Collection
+     */
+    public function groupBy($callback);
+
+    /**
+     * @param scalar $key
+     * @return Collection
+     */
+    public function pick($key);
+    
+    /**
+     * @return Collection
+     */
+    public function flatten();
 }
