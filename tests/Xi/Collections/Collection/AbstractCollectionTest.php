@@ -1,6 +1,7 @@
 <?php
 namespace Xi\Collections\Collection;
-use Xi\Collections\Enumerable\AbstractEnumerableTest;
+use Xi\Collections\Enumerable\AbstractEnumerableTest,
+    Xi\Collections\Collection;
 
 abstract class AbstractCollectionTest extends AbstractEnumerableTest
 {
@@ -168,5 +169,155 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $collection = $this->getCollection($elements);
         $result = $collection->keys();
         $this->assertEquals(array_keys($elements), $result->toArray());
+    }
+    
+    public function indexBySet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('foo'), array('foo' => 'foo')),
+            array(array('foo' => 'bar'), array('bar' => 'bar')),
+            array(array('foo' => 'bar', 'foo'), array('bar' => 'bar', 'foo' => 'foo'))
+        );
+    }
+    
+    /**
+     * @test
+     * @dataProvider indexBySet
+     */
+    public function shouldBeAbleToIndexByCallback($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->indexBy(function($value) {
+            return $value;
+        });
+        $this->assertEquals($expected, $result->toArray());
+    }
+    
+    public function groupBySet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('foo'), array('foo' => array('foo'))),
+            array(array('foo', 'foo'), array('foo' => array('foo', 'foo'))),
+            array(array('foo', 'bar'), array('foo' => array('foo'), 'bar' => array('bar'))),
+            array(array('foo' => 'bar'), array('bar' => array('bar')))
+        );
+    }
+    
+    /**
+     * @test
+     * @dataProvider groupBySet
+     */
+    public function shouldBeAbleToGroupByCallback($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $collection = $collection->groupBy(function($value) {
+            return $value;
+        });
+        $result = array();
+        foreach ($collection as $key => $value) {
+            $result[$key] = ($value instanceof Collection) ? $value->toArray() : $value;
+        }
+        $this->assertEquals($expected, $result);
+    }
+    
+    public function pickFromArraySet()
+    {
+        return array(
+            array(array(), array()),
+            array(array(array('foo' => 'bar')), array('bar')),
+            array(array(array('foo' => 'bar'), array('foo' => 'qux')), array('bar', 'qux')),
+            array(array(array('bar')), array(null)),
+        );
+    }
+    
+    /**
+     * @test
+     * @dataProvider pickFromArraySet
+     */
+    public function shouldBeAbleToPickKeysFromArray($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->pick('foo');
+        $this->assertEquals($expected, $result->toArray());
+    }
+    
+    public function pickFromObjectSet()
+    {
+        return array(
+            array(array(), array()),
+            array(array((object) array('foo' => 'bar')), array('bar')),
+            array(array((object) array('foo' => 'bar'), (object) array('foo' => 'qux')), array('bar', 'qux')),
+            array(array((object) array('bar')), array(null)),
+        );
+    }
+    
+    /**
+     * @test
+     * @dataProvider pickFromObjectSet
+     */
+    public function shouldBeAbleToPickKeysFromObject($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->pick('foo');
+        $this->assertEquals($expected, $result->toArray());
+    }
+    
+    public function flattenArraySet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('foo'), array('foo')),
+            array(array(array('foo')), array('foo')),
+            array(array('foo', array('bar')), array('foo', 'bar'))
+        );
+    }
+    
+    /**
+     * @test
+     * @dataProvider flattenArraySet
+     */
+    public function shouldBeAbleToFlattenArrays($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->flatten();
+        $this->assertEquals($expected, $result->toArray());
+    }
+    
+    public function flattenTraversableSet()
+    {
+        $set = $this->flattenArraySet();
+        foreach ($set as $key => $args) {
+            list($elements, $expected) = $args;
+            $set[$key] = array($this->traversable($elements), $expected);
+        }
+        return $set;
+    }
+    
+    /**
+     * @return \ArrayIterator 
+     */
+    private function traversable(array $items)
+    {
+        foreach ($items as $key => $value) {
+            if (is_array($value)) {
+                $items[$key] = new \ArrayObject($this->traversable($value));
+            } else {
+                $items[$key] = $value;
+            }
+        }
+        return $items;
+    }
+    
+    /**
+     * @test
+     * @dataProvider flattenTraversableSet
+     */
+    public function shouldBeAbleToFlattenTraversables($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->flatten();
+        $this->assertEquals($expected, $result->toArray());
     }
 }
