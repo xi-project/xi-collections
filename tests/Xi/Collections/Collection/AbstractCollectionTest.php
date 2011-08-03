@@ -96,7 +96,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         });
         $this->assertEquals($expected, $result->toArray());
     }
-    
+
     public function keyMapSet()
     {
         return array(
