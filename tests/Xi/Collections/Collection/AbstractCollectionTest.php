@@ -73,6 +73,50 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         });
         $this->assertEquals($expected, $result->toArray());
     }
+    
+    public function indexedIntegerIncrementSet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('foo' => 1), array('foo' => 2)),
+            array(array('foo' => 1, 'bar' => 2), array('foo' => 2, 'bar' => 3))
+        );
+    }
+    
+    /**
+     * @test
+     * @dataProvider indexedIntegerIncrementSet
+     * @depends shouldBeAbleToMapEachElement
+     */
+    public function shouldMaintainIndexAssociationsWhenMapping($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->map(function ($v) {
+            return $v + 1;
+        });
+        $this->assertEquals($expected, $result->toArray());
+    }
+    
+    public function keyMapSet()
+    {
+        return array(
+            array(array('foo' => null), array('foo' => 'foo')),
+        );
+    }
+    
+    /**
+     * @test
+     * @dataProvider keyMapSet
+     * @depends shouldMaintainIndexAssociationsWhenMapping
+     */
+    public function shouldProvideKeysToMapFunction($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->map(function($v, $k) {
+            return $k;
+        });
+        $this->assertEquals($expected, $result->toArray());
+    }
 
     public function truthinessSet()
     {
