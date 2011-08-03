@@ -53,7 +53,12 @@ class ArrayCollection extends ArrayEnumerable implements Collection
 
     public function map($callback)
     {
-        return static::create(array_map($callback, $this->_elements, array_keys($this->_elements)));
+        // Providing keys to the callback manually, because index associations
+        // are not maintained when array_map is called with multiple arrays.
+        $values = $this->_elements;
+        return static::create(array_map(function($value) use($callback, $values) {
+            return $callback($value, list($key) = each($values));
+        }, $this->_elements));
     }
 
     public function concatenate($other)

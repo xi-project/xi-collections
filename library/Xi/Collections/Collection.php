@@ -42,13 +42,18 @@ interface Collection extends Enumerable
 
     /**
      * Creates a new Collection with up to $number first elements from this one.
-     *
+     * Maintains index associations.
+     * 
      * @param int $number
      * @return Collection
      */
     public function take($number);
 
     /**
+     * Applies a callback for each value-key-pair in the Collection and returns
+     * a new one with values replaced by the return values from the callback.
+     * Maintains index associations.
+     * 
      * @param callback($value, $key) $callback
      * @return Collection
      */
@@ -57,12 +62,10 @@ interface Collection extends Enumerable
     /**
      * Creates a collection with the values of this collection that match a
      * given predicate. If the predicate is omitted, the values will simply be
-     * checked for truthiness.
+     * checked for truthiness. Maintains index associations.
      *
      * Implementors may provide the callback with an optional $key argument at
      * their discretion.
-     *
-     * Is not guaranteed to maintain index associations.
      *
      * @param callback($value) $predicate optional
      * @return Collection
@@ -80,7 +83,7 @@ interface Collection extends Enumerable
 
     /**
      * Creates a Collection with key-value pairs in the $other Collection
-     * overriding ones in $this Collection
+     * overriding ones in $this Collection. Maintains index associations.
      *
      * @param Collection $other
      * @return Collection
