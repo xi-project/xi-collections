@@ -64,10 +64,7 @@ interface Collection extends Enumerable
      * given predicate. If the predicate is omitted, the values will simply be
      * checked for truthiness. Maintains index associations.
      *
-     * Implementors may provide the callback with an optional $key argument at
-     * their discretion.
-     *
-     * @param callback($value) $predicate optional
+     * @param callback($value, $key) $predicate optional
      * @return Collection
      */
     public function filter($predicate = null);
