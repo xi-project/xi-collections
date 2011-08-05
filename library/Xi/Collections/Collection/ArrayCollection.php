@@ -121,17 +121,22 @@ class ArrayCollection extends ArrayEnumerable implements Collection
         return $this->map(Functions::pick($key));
     }
     
+    public function invoke($method)
+    {
+        return $this->map(Functions::invoke($method));
+    }
+    
     public function flatten()
     {
         return $this->apply(Functions::flatten());
     }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function unique()
+    
+    public function unique($strict = true)
     {
-        return static::create(array_unique($this->_elements));
+        if (false === $strict) {
+            return static::create(array_unique($this->_elements));
+        }
+        return $this->apply(Functions::unique($strict));
     }
 
     /**

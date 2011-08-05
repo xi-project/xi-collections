@@ -29,8 +29,25 @@ final class Functions
     }
     
     /**
+     * @param boolean $strict optional, defaults to true
+     * @return callback(mixed)
+     */
+    public static function unique($strict = true)
+    {
+        return function($collection) use($strict) {
+            $result = array();
+            foreach ($collection as $key => $value) {
+                if (!in_array($value, $result, $strict)) {
+                    $result[$key] = $value;
+                }
+            }
+            return $result;
+        };
+    }
+    
+    /**
      * @param scalar $key
-     * @return callback
+     * @return callback(ArrayAccess|array|object|mixed)
      */
     public static function pick($key)
     {
@@ -45,8 +62,19 @@ final class Functions
     }
     
     /**
+     * @param string $method
+     * @return callback(object)
+     */
+    public static function invoke($method)
+    {
+        return function($object) use($method) {
+            return $object->$method();
+        };
+    }
+    
+    /**
      * @param callback($value, $key) $callback
-     * @return callback($collection)
+     * @return callback(Traversable)
      */
     public static function indexBy($callback)
     {
@@ -62,7 +90,7 @@ final class Functions
     /**
      * @param callback($value, $key) $groupIndex
      * @param callback($group) $groupValue optional
-     * @return callback($collection)
+     * @return callback(Traversable)
      */
     public static function groupBy($groupIndex, $groupValue = null)
     {
@@ -85,7 +113,7 @@ final class Functions
     /**
      * Flattens nested collections of arrays or Traversable objects
      * 
-     * @return callback($collection)
+     * @return callback(Traversable)
      */
     public static function flatten()
     {

@@ -107,8 +107,18 @@ class OuterCollection extends OuterEnumerable implements Collection
         return static::create($this->collection->pick($key));
     }
     
+    public function invoke($method)
+    {
+        return static::create($this->collection->invoke($method));
+    }
+    
     public function flatten()
     {
         return static::create($this->collection->flatten());
+    }
+    
+    public function unique($strict = true)
+    {
+        return static::create($this->collection->unique($strict));
     }
 }

@@ -112,8 +112,18 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
         return $this->map(Functions::pick($key));
     }
     
+    public function invoke($method)
+    {
+        return $this->map(Functions::invoke($method));
+    }
+    
     public function flatten()
     {
         return $this->apply(Functions::flatten());
+    }
+    
+    public function unique($strict = true)
+    {
+        return $this->apply(Functions::unique($strict));
     }
 }

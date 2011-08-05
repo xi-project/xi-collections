@@ -116,7 +116,19 @@ interface Collection extends Enumerable
     public function pick($key);
     
     /**
+     * @param string $method
+     * @return Collection
+     */
+    public function invoke($method);
+    
+    /**
      * @return Collection
      */
     public function flatten();
+    
+    /**
+     * @param boolean $strict optional, defaults to true
+     * @return Collection
+     */
+    public function unique($strict = true);
 }
