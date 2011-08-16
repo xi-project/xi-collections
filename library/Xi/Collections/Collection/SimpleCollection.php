@@ -23,10 +23,7 @@ class SimpleCollection extends AbstractCollection
 
     public function getIterator()
     {
-        if (is_array($this->traversable)) {
-            return new \ArrayIterator($this->traversable);
-        }
-        return new \IteratorIterator($this->traversable);
+        return Functions::getIterator($this->traversable);
     }
 
     public static function create($elements)

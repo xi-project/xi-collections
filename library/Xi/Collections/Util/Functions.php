@@ -29,6 +29,25 @@ final class Functions
     }
     
     /**
+     * Get a suitable Iterator instance for a value. ArrayIterator for arrays,
+     * IteratorIterator for Traversables and an iterator from the value's
+     * getIterator() method for IteratorAggregate objects.
+     * 
+     * @param array|IteratorAggregate|Traversable $value
+     * @return Iterator
+     * @throws InvalidArgumentException
+     */
+    public static function getIterator($value)
+    {
+        switch (true) {
+            case is_array($value): return new \ArrayIterator($value);
+            case $value instanceof \IteratorAggregate: return $value->getIterator();
+            case $value instanceof \Traversable: return new \IteratorIterator($value);
+            default: throw new \InvalidArgumentException("Argument should be either an array, an IteratorAggregate or Traversable");
+        }
+    }
+    
+    /**
      * @param boolean $strict optional, defaults to true
      * @return callback(mixed)
      */
