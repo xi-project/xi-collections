@@ -2,7 +2,7 @@
 namespace Xi\Collections\Collection;
 
 use Xi\Collections\Collection,
-    Xi\Collections\Functions,
+    Xi\Collections\Util\Functions,
     Xi\Collections\Enumerable\ArrayEnumerable;
 
 /**

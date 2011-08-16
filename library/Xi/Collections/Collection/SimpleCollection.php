@@ -1,6 +1,6 @@
 <?php
 namespace Xi\Collections\Collection;
-use Xi\Collections\Functions;
+use Xi\Collections\Util\Functions;
 
 /**
  * Provides a trivial concrete implementation of a Collection. Accepts any

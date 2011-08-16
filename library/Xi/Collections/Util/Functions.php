@@ -1,5 +1,5 @@
 <?php
-namespace Xi\Collections;
+namespace Xi\Collections\Util;
 
 /**
  * A set of static functions that generate callback functions. Collection
