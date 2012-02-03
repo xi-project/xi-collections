@@ -1,6 +1,8 @@
 <?php
 namespace Xi\Collections\Enumerable;
 
+use Xi\Collections\Util\Functions;
+
 /**
  * Provides a trivial concrete implementation of an Enumerable. Accepts any
  * traversable object or array as a constructor argument.
@@ -21,10 +23,10 @@ class SimpleEnumerable extends AbstractEnumerable
     }
 
     /**
-     * @return \IteratorIterator
+     * @return \Iterator
      */
     public function getIterator()
     {
-        return new \IteratorIterator($this->traversable);
+        return Functions::getIterator($this->traversable);
     }
 }

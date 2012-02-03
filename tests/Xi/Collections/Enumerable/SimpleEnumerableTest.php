@@ -5,6 +5,6 @@ class SimpleEnumerableTest extends AbstractEnumerableTest
 {
     public function getEnumerable($elements = array())
     {
-        return new ArrayEnumerable($elements);
+        return new SimpleEnumerable($elements);
     }
 }
