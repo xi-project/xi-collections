@@ -78,7 +78,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
     {
         return array(
             array(array(), array()),
-            array(array('foo' => 1), array('foo' => 2)),
+            array(array(1), array(2)),
             array(array('foo' => 1, 'bar' => 2), array('foo' => 2, 'bar' => 3))
         );
     }

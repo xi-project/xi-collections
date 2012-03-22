@@ -88,45 +88,62 @@ interface Collection extends Enumerable
     public function union($other);
 
     /**
+     * Get a Collection with just the values from this Collection
+     *
      * @return Collection
      */
     public function values();
 
     /**
+     * Get a Collection with the keys from this one as values
+     *
      * @return Collection
      */
     public function keys();
 
     /**
+     * Reindex the Collection using a given callback
+     *
      * @param callback($value, $key) $callback
      * @return Collection
      */
     public function indexBy($callback);
 
     /**
+     * Group the values in the Collection into nested Collections according to
+     * a given callback
+     * 
      * @param callback($value, $key) $callback
      * @return Collection
      */
     public function groupBy($callback);
 
     /**
+     * Get a Collection with a key or member property picked from each value
+     *
      * @param scalar $key
      * @return Collection
      */
     public function pick($key);
     
     /**
+     * Map this Collection by invoking a method on every value
+     *
      * @param string $method
      * @return Collection
      */
     public function invoke($method);
     
     /**
+     * Flatten nested arrays and Traversables
+     *
      * @return Collection
      */
     public function flatten();
     
     /**
+     * Get a Collection with only the unique values from this one.
+     *
      * @param boolean $strict optional, defaults to true
      * @return Collection
      */

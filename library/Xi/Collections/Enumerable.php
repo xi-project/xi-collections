@@ -30,6 +30,9 @@ interface Enumerable extends \IteratorAggregate, \Countable
     public function each($callback, $userdata = null);
 
     /**
+     * Uses a given callback to reduce the collection's elements to a single
+     * value, starting from a provided initial value.
+     *
      * @param callback($accumulator, $value, $key) $callback
      * @param mixed $initial optional
      * @return mixed

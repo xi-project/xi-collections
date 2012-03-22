@@ -7,7 +7,7 @@ namespace Xi\Collections\Util;
  * other, but they can also be used when mirroring certain operations with
  * constructs outside Xi\Collections.
  */
-final class Functions
+class Functions
 {
     /**
      * This class cannot be instantiated
