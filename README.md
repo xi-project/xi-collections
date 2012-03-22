@@ -181,8 +181,8 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 ## Most relevant Collection implementations
 
-`ArrayCollection`: Basic Collection backed by a plain PHP array.
-`OuterCollection`: A decorator for a Collection. Can easily be extended to provide more collection operations without locking down the implementation specifics.
+`ArrayCollection`: Basic Collection backed by a plain PHP array.  
+`OuterCollection`: A decorator for a Collection. Can easily be extended to provide more collection operations without locking down the implementation specifics.  
 
 # Running the unit tests
 
