@@ -33,7 +33,7 @@ PHP's array functions is not built-in, but can be readily used if you need to.
 
 ## From imperative to functional
 
-A simple loop that filters and transforms a set of data:
+Let's assume a simple loop that filters and transforms a set of data:
 
 	public function getMatchingInterestingParts() {
 		$foos = $this->getFoos();
@@ -46,7 +46,7 @@ A simple loop that filters and transforms a set of data:
 		return $result;
 	}
 
-The same expressed with Collections:
+Here's the same expressed with Collections:
 
 	public function getMatchingInterestingParts() {
 		return $this->getFoos()
