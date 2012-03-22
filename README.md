@@ -186,5 +186,5 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 # Running the unit tests
 
-  cd tests
-  phpunit --bootstrap bootstrap.php Xi
+	cd tests
+	phpunit --bootstrap bootstrap.php Xi
