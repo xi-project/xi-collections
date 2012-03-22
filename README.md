@@ -1,3 +1,7 @@
+# Xi Collections
+
+Functional, immutable and extensible enumerations and collections for PHP 5.3.
+
 # Design Philosophy
 
 PHP has always lacked solid collections support, with the vast majority of programmers making do  
