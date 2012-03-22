@@ -1,32 +1,32 @@
 # Design Philosophy
 
-PHP has always lacked solid collections support, with the vast majority of programmers making do 
-with arrays and the related built-in functions. With the introduction of SPL in PHP 5.0 and the 
-consequent extensions in 5.3, there are currently more choices than ever if all you want for is 
-speed and answers to specific use cases. Array processing, however, is not significantly better 
-than ten years ago, with the API about as comfortable and handy for everyday tasks as picking at 
+PHP has always lacked solid collections support, with the vast majority of programmers making do  
+with arrays and the related built-in functions. With the introduction of SPL in PHP 5.0 and the  
+consequent extensions in 5.3, there are currently more choices than ever if all you want for is  
+speed and answers to specific use cases. Array processing, however, is not significantly better  
+than ten years ago, with the API about as comfortable and handy for everyday tasks as picking at  
 your dinner with a shovel.
 
-Xi Collections aims to rectify the situation and inject your workflow with a hearty dose of 
-functional and declarative aspects. This is intended to result in more clarity in expressing and 
-understanding processing collections of objects or data, allowing you to work faster and deliver 
+Xi Collections aims to rectify the situation and inject your workflow with a hearty dose of  
+functional and declarative aspects. This is intended to result in more clarity in expressing and  
+understanding processing collections of objects or data, allowing you to work faster and deliver  
 more self-documenting code.
 
 # Design Principles
 
-- _Object immutability._ The collections' methods do not manipulate the collections' contents, 
+- _Object immutability._ The collections' methods do not manipulate the collections' contents,  
 but return a new collection instead.
 
-- _API chainability._ No operation will return void and leave you in the dark; you'll always be 
+- _API chainability._ No operation will return void and leave you in the dark; you'll always be  
 able to continue where you left off.
 
-- _Embracing functional programming._ The Collections API is chosen to facilitate a functional 
-workflow. Existing FP-compatible functionality in PHP is prioritized for inclusion to the API, 
+- _Embracing functional programming._ The Collections API is chosen to facilitate a functional  
+workflow. Existing FP-compatible functionality in PHP is prioritized for inclusion to the API,  
 and other important concepts that are missing are stolen from other languages and libraries.
 
-- _Out-of-the-box extensibility._ Decorators for separating the concrete Collection 
-implementations from your modifications to the API are included. The interfaces tend to the 
-minimal rather than extensive, making new implementations easier. Specifically, the whole of 
+- _Out-of-the-box extensibility._ Decorators for separating the concrete Collection  
+implementations from your modifications to the API are included. The interfaces tend to the  
+minimal rather than extensive, making new implementations easier. Specifically, the whole of  
 PHP's array functions is not built-in, but can be readily used if you need to.
 
 # Examples
@@ -154,30 +154,30 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 ## Enumerable
 
-`tap`: Calls a provided callback with this object as a parameter 
-`each`: Performs an operation once per key-value pair 
-`reduce`: Uses a given callback to reduce the collection's elements to a single value, starting from a provided initial value 
-`find`: Returns the first value that satisfies a given predicate 
-`exists`: Checks whether the collection has at least one element satisfying a given predicate 
-`forAll`: Checks whether all of the elements in the collection satisfy a given predicate 
-`countAll`: Counts the amount of elements in the collection that satisfy a given predicate 
+`tap`: Calls a provided callback with this object as a parameter  
+`each`: Performs an operation once per key-value pair  
+`reduce`: Uses a given callback to reduce the collection's elements to a single value, starting from a provided initial value  
+`find`: Returns the first value that satisfies a given predicate  
+`exists`: Checks whether the collection has at least one element satisfying a given predicate  
+`forAll`: Checks whether all of the elements in the collection satisfy a given predicate  
+`countAll`: Counts the amount of elements in the collection that satisfy a given predicate  
 
 ## Collection
 
-`apply`: Creates a new Collection of this type from the output of a given callback that takes this Collection as its argument 
-`take`: Creates a new Collection with up to $number first elements from this one 
-`map`: Applies a callback for each value-key-pair in the Collection and returns a new one with values replaced by the return values from the callback 
-`filter`: Creates a collection with the values of this collection that match a given predicate 
-`concatenate`: Creates a Collection with elements from this and another one 
-`union`: Creates a Collection with key-value pairs in the `$other` Collection overriding ones in `$this` Collection 
-`values`: Get a Collection with just the values from this Collection 
-`keys`: Get a Collection with the keys from this one as values 
-`indexBy`: Reindex the Collection using a given callback 
-`groupBy`: Group the values in the Collection into nested Collections according to a given callback 
-`pick`: Get a Collection with a key or member property picked from each value 
-`invoke`: Map this Collection by invoking a method on every value 
-`flatten`: Flatten nested arrays and Traversables 
-`unique`: Get a Collection with only the unique values from this one 
+`apply`: Creates a new Collection of this type from the output of a given callback that takes this Collection as its argument  
+`take`: Creates a new Collection with up to $number first elements from this one  
+`map`: Applies a callback for each value-key-pair in the Collection and returns a new one with values replaced by the return values from the callback  
+`filter`: Creates a collection with the values of this collection that match a given predicate  
+`concatenate`: Creates a Collection with elements from this and another one  
+`union`: Creates a Collection with key-value pairs in the `$other` Collection overriding ones in `$this` Collection  
+`values`: Get a Collection with just the values from this Collection  
+`keys`: Get a Collection with the keys from this one as values  
+`indexBy`: Reindex the Collection using a given callback  
+`groupBy`: Group the values in the Collection into nested Collections according to a given callback  
+`pick`: Get a Collection with a key or member property picked from each value  
+`invoke`: Map this Collection by invoking a method on every value  
+`flatten`: Flatten nested arrays and Traversables  
+`unique`: Get a Collection with only the unique values from this one  
 
 ## Most relevant Collection implementations
 
