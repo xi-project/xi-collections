@@ -33,7 +33,7 @@ class ArrayAggregatable extends ArrayEnumerable implements Aggregatable
      */
     public function min()
     {
-        return !empty($this->_elements) ? min($this->_elements) : null;
+        return $this->applyOrNull('min');
     }
 
     /**
@@ -43,7 +43,7 @@ class ArrayAggregatable extends ArrayEnumerable implements Aggregatable
      */
     public function max()
     {
-        return !empty($this->_elements) ? max($this->_elements) : null;
+        return $this->applyOrNull('max');
     }
 
     /**
@@ -53,6 +53,18 @@ class ArrayAggregatable extends ArrayEnumerable implements Aggregatable
      */
     public function sum()
     {
-        return array_sum($this->_elements);
+        return $this->applyOrNull('array_sum');
+    }
+
+    /**
+     * Returns the value of the callback applied to the elements or null if
+     * there are no elements.
+     *
+     * @param callback($elements) $callback
+     * @return mixed|null
+     */
+    private function applyOrNull($callback)
+    {
+        return !empty($this->_elements) ? $callback($this->_elements) : null;
     }
 }
