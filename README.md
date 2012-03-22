@@ -33,3 +33,8 @@ PHP's array functions is not built-in, but can be readily used if you need to.
 
 - Generic API description
 - Usage examples
+
+# Running the unit tests
+
+  cd tests
+  phpunit --bootstrap bootstrap.php Xi
