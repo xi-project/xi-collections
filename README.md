@@ -24,27 +24,27 @@ Xi Collections aims to rectify the situation and inject your workflow with a hea
 
 Let's assume a simple loop that filters and transforms a set of data:
 
-	public function getMatchingInterestingParts() {
-		$foos = $this->getFoos();
-		$result = array();
-		foreach ($data as $key => $value) {
-			if ($this->match($value)) {
-				$foos[$key] = $value->getInterestingParts();
-			}
-		}
-		return $result;
-	}
+    public function getMatchingInterestingParts() {
+        $foos = $this->getFoos();
+        $result = array();
+        foreach ($data as $key => $foo) {
+            if ($this->match($foo)) {
+                $result[$key] = $foo->getInterestingParts();
+            }
+        }
+        return $result;
+    }
 
 Here's the same expressed with Collections:
 
-	public function getMatchingInterestingParts() {
-		return $this->getFoos()
+    public function getMatchingInterestingParts() {
+        return $this->getFoos()
             ->filter(function(Foo $foo) {
-            	return $this->matches($foo);
-	        })->map(function(Foo $foo) {
-	        	return $foo->getInterestingParts();
-	        });
-	}
+                return $this->matches($foo);
+            })->map(function(Foo $foo) {
+                return $foo->getInterestingParts();
+            });
+    }
 
 The latter bit of code is not much shorter, and for someone unfamiliar with functional constructs it may be more difficult to process. It does, however, have a few interesting qualities. The code communicates its intent better - filter values, then map the result, and nothing else. This is especially beneficial when considering code with a significantly more complex set of transformations. There's less room for error; index associations are automatically maintained. This also means you can focus on the interesting bits instead of boilerplate, which helps both when reading and when writing the code. A third benefit is that you can take full advantage of type hints and the safety they can bring, something which will be lacking with a simple foreach loop.
 
@@ -52,29 +52,29 @@ The latter bit of code is not much shorter, and for someone unfamiliar with func
 
 One of the most common use cases for looping over an array is collecting the results of a member access or method invocation from every item. Collections makes that easy.
 
-	public function getBarsByFoos() {
-		$bars = array();
-		foreach ($this->getFoos() as $key => $foo) {
-			$bars[$key] = $foo->getBar();
-		}
-		return $bars;
-	}
-	// becomes
-	public function getBarsByFoos() {
-		return $this->getFoos()->invoke('getBar');
-	}
+    public function getBarsByFoos() {
+        $bars = array();
+        foreach ($this->getFoos() as $key => $foo) {
+            $bars[$key] = $foo->getBar();
+        }
+        return $bars;
+    }
+    // becomes
+    public function getBarsByFoos() {
+        return $this->getFoos()->invoke('getBar');
+    }
 
-	public function getFooTrivialities() {
-		$trivialities = array();
-		foreach ($this->getFoos() as $key => $foo) {
-			$trivialities[$key] = $foo->triviality;
-		}
-		return $trivialities;
-	}
-	// becomes
-	public function getFooTrivialities() {
-		return $this->getFoos()->pick('triviality');
-	}
+    public function getFooTrivialities() {
+        $trivialities = array();
+        foreach ($this->getFoos() as $key => $foo) {
+            $trivialities[$key] = $foo->triviality;
+        }
+        return $trivialities;
+    }
+    // becomes
+    public function getFooTrivialities() {
+        return $this->getFoos()->pick('triviality');
+    }
 
 Picking even works for arrays (or objects implementing ArrayAccess) too, and you don't need to care about which type the input is.
 
@@ -82,32 +82,32 @@ Picking even works for arrays (or objects implementing ArrayAccess) too, and you
 
 Suppose you have a pipeline where data is transformed according to complex rules.
 
-	public function getAliveQuxen() {
-		return $this->getFoos()
-			->map($this->fromFooToBar)
-			->filter(function($bar) { return $bar->isAlive(); })
-			->map($this->fromBarToQux);
-	}
+    public function getAliveQuxen() {
+        return $this->getFoos()
+            ->map($this->fromFooToBar)
+            ->filter(function($bar) { return $bar->isAlive(); })
+            ->map($this->fromBarToQux);
+    }
 
 Suppose further that you want to inspect the data as it passes from one step to another. This is where you'd introduce temporary variables, were the code imperatively structured. With Collections, all you need is `tap`. It accepts a function that takes the contents of the collection as its parameter - and does nothing but call the function.
 
-	public function getAliveQuxen() {
-		return $this->getFoos()
-			->map($this->fromFooToBar)
-			->filter(function($bar) { return $bar->isAlive(); })
-			->tap(function($bars) { $this->log($bars); })
-			->map($this->fromBarToQux);
-	}
+    public function getAliveQuxen() {
+        return $this->getFoos()
+            ->map($this->fromFooToBar)
+            ->filter(function($bar) { return $bar->isAlive(); })
+            ->tap(function($bars) { $this->log($bars); })
+            ->map($this->fromBarToQux);
+    }
 
 A reader of your code will be able to immediately recognize that the part in `tap` is only being executed for its side effects and that it has nothing to do with the transformation itself. We could've used `each` in a similar fashion if we were instead interested in the individual units of computation.
 
-	public function getAliveQuxen() {
-		return $this->getFoos()
-			->map($this->fromFooToBar)
-			->filter(function($bar) { return $bar->isAlive(); })
-			->each(function($bar) { $this->logBar($bar); })
-			->map($this->fromBarToQux);
-	}
+    public function getAliveQuxen() {
+        return $this->getFoos()
+            ->map($this->fromFooToBar)
+            ->filter(function($bar) { return $bar->isAlive(); })
+            ->each(function($bar) { $this->logBar($bar); })
+            ->map($this->fromBarToQux);
+    }
 
 ## Using an extended API on the fly
 
@@ -115,21 +115,21 @@ In any given PHP environment there tends to be an amount of existing functionali
 
 Let's assume you want to sort your values. Here's a way to do it using `apply`.
 
-	public function getSortedFoos() {
-		return $this->getFoos()
-			->apply(function($collection) {
-				$foos = $collection->toArray();
-				ksort($foos);
-				return $foos;
-			});
-	}
+    public function getSortedFoos() {
+        return $this->getFoos()
+            ->apply(function($collection) {
+                $foos = $collection->toArray();
+                ksort($foos);
+                return $foos;
+            });
+    }
 
 The argument is a collection, which will have to be converted to an array first to be accepted by `ksort`. The function also operates on references, not values, so a temporary variable is necessary. There's an amount of cruft with this use case, but you're likely to be using raw PHP functions rarely. If you're using `apply` with functions that have a more reasonable API, eg. accept Traversable objects instead of necessitating arrays, the footprint becomes much more palatable. In such a fictional scenario for `ksort`, for instance:
 
-	public function getSortedFoos() {
-		return $this->getFoos()
-			->apply('ksort');
-	}
+    public function getSortedFoos() {
+        return $this->getFoos()
+            ->apply('ksort');
+    }
 
 # API basics
 
@@ -137,7 +137,7 @@ Collections has two core interfaces. `Enumerable` implements a set of collection
 
 Every concrete class has a static `create` method that can be used for fluently constructing and accessing a collection. For instance:
 
-	ArrayCollection::create($values)->invoke('getBar')->each(function(Bar $bar) { $bar->engage(); });
+    ArrayCollection::create($values)->invoke('getBar')->each(function(Bar $bar) { $bar->engage(); });
 
 Below is a short description of the APIs provided by Enumerable and Collection. For more thorough information, you'll need to consult the source.
 
@@ -175,5 +175,5 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 # Running the unit tests
 
-	cd tests
-	phpunit --bootstrap bootstrap.php Xi
+    cd tests
+    phpunit --bootstrap bootstrap.php Xi
