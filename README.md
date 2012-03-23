@@ -25,11 +25,10 @@ Xi Collections aims to rectify the situation and inject your workflow with a hea
 Let's assume a simple loop that filters and transforms a set of data:
 
 	public function getMatchingInterestingParts() {
-		$foos = $this->getFoos();
 		$result = array();
-		foreach ($data as $key => $value) {
+		foreach ($this->getFoos() as $key => $value) {
 			if ($this->match($value)) {
-				$foos[$key] = $value->getInterestingParts();
+				$result[$key] = $value->getInterestingParts();
 			}
 		}
 		return $result;
@@ -76,7 +75,7 @@ One of the most common use cases for looping over an array is collecting the res
 		return $this->getFoos()->pick('triviality');
 	}
 
-Picking even works for arrays (or objects implementing ArrayAccess) too, and you don't need to care about which type the input is.
+Picking even works for arrays (or objects implementing ArrayAccess) as well, and you don't need to care about which type the input is.
 
 ## Inspect intermediate steps of complex operations
 
@@ -177,3 +176,8 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 	cd tests
 	phpunit --bootstrap bootstrap.php Xi
+
+# TODO
+
+- Collection implementations backed by SPL (SplFixedArray, SplDoublyLinkedList?)
+- Once PHP 5.4 comes about, implementations can be significantly simplified using traits
