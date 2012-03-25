@@ -2,13 +2,13 @@
 
 Functional, immutable and extensible enumerations and collections for PHP 5.3.
 
-# Design Philosophy
+## Design Philosophy
 
 PHP has always lacked solid collections support, with the vast majority of programmers making do with arrays and the related built-in functions. With the introduction of SPL in PHP 5.0 and the consequent extensions in 5.3, there are currently more choices than ever if all you want for is speed and answers to specific use cases. Array processing, however, is not significantly better than ten years ago, with the API about as comfortable and handy for everyday tasks as picking at your dinner with a shovel.
 
 Xi Collections aims to rectify the situation and inject your workflow with a hearty dose of functional and declarative aspects. This is intended to result in more clarity in expressing and understanding processing collections of objects or data, allowing you to work faster and deliver more self-documenting code.
 
-# Design Principles
+## Design Principles
 
 - _Object immutability._ The collections' methods do not manipulate the collections' contents, but return a new collection instead.
 
@@ -181,3 +181,4 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 - Collection implementations backed by SPL (SplFixedArray, SplDoublyLinkedList?)
 - Once PHP 5.4 comes about, implementations can be significantly simplified using traits
+- The option to lazily apply some of the available transformations
