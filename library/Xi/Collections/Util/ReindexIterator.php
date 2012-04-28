@@ -7,16 +7,16 @@ namespace Xi\Collections\Util;
  */
 class ReindexIterator extends \IteratorIterator
 {
-	private $index;
+    private $index;
 
-	public function rewind()
-	{
-		parent::rewind();
-		$this->index = 0;
-	}
+    public function rewind()
+    {
+        parent::rewind();
+        $this->index = 0;
+    }
 
-	public function key()
-	{
-		return $this->index++;
-	}
+    public function key()
+    {
+        return $this->index++;
+    }
 }

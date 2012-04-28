@@ -13,6 +13,6 @@ class SimpleCollectionViewTest extends AbstractCollectionTest
      */
     public function shouldBeAbleToCoerceIntoPlainCollection()
     {
-    	$this->assertFalse($this->getCollection()->force() instanceof SimpleCollectionView);
+        $this->assertFalse($this->getCollection()->force() instanceof SimpleCollectionView);
     }
 }
