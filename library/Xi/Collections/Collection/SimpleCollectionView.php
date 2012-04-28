@@ -37,7 +37,7 @@ class SimpleCollectionView extends SimpleCollection implements CollectionView
     public function apply($callback)
     {
         $self = $this;
-        return $this->lazy(new Util\LazyIterator(function() use($self, $callback) {
+        return $this->lazy($this->getLazyIteratorFor(function() use($self, $callback) {
             return $callback($self);
         }));
     }
@@ -79,19 +79,37 @@ class SimpleCollectionView extends SimpleCollection implements CollectionView
         $iterator = new \AppendIterator;
         $iterator->append($this->getIterator());
         $iterator->append($this->getIteratorFor($other));
-        return $this->lazy(new Util\LazyIterator(function() use($iterator) {
+        return $this->lazy($this->getLazyIteratorFor(function() use($iterator) {
             return iterator_to_array($iterator);
         }));
     }
 
     public function flatMap($callback)
     {
-        return $this->lazy(new Util\ReindexIterator(new \RecursiveIteratorIterator($this->getFlatMapIteratorFor($this->getIterator(), $callback))));
+        return $this->lazy($this->getReindexIteratorFor(new \RecursiveIteratorIterator($this->getFlatMapIteratorFor($this->getIterator(), $callback))));
+    }
+
+    public function values()
+    {
+        return $this->lazy($this->getReindexIteratorFor($this->getIterator()));
+    }
+
+    public function keys()
+    {
+        return $this->lazy($this->getReindexIteratorFor($this->getMapIteratorFor(
+            $this->getIterator(),
+            function($v, $k) { return $k; }
+        )));
     }
 
     protected function getIteratorFor($other)
     {
         return Util\Functions::getIterator($other);
+    }
+
+    protected function getLazyIteratorFor($callback)
+    {
+        return new Util\LazyIterator($callback);
     }
 
     protected function getReindexIteratorFor($iterator)
