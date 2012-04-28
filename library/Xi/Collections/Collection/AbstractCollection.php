@@ -14,6 +14,11 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
     {
         return Functions::getCallback(get_called_class(), 'create');
     }
+
+    public function view()
+    {
+        return new SimpleCollectionView($this, static::getCreator());
+    }
     
     public function apply($callback)
     {
@@ -97,6 +102,11 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
         return static::create($results);
     }
 
+    public function flatMap($callback)
+    {
+        return $this->apply(Functions::flatMap($callback));
+    }
+
     public function indexBy($callback)
     {
         return $this->apply(Functions::indexBy($callback));
@@ -125,5 +135,15 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
     public function unique($strict = true)
     {
         return $this->apply(Functions::unique($strict));
+    }
+
+    public function sortWith($comparator)
+    {
+        return $this->apply(Functions::sortWith($comparator));
+    }
+
+    public function sortBy($metric)
+    {
+        return $this->apply(Functions::sortBy($comparator));
     }
 }

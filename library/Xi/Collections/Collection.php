@@ -32,6 +32,13 @@ interface Collection extends Enumerable
     public static function getCreator();
 
     /**
+     * Provides a collection where transformer operations are applied lazily
+     *
+     * @return CollectionView
+     */
+    public function view();
+
+    /**
      * Creates a new Collection of this type from the output of a given callback
      * that takes this Collection as its argument.
      *
@@ -102,6 +109,16 @@ interface Collection extends Enumerable
     public function keys();
 
     /**
+     * Applies a callback for each key-value-pair in the Collection assuming
+     * that the callback result value is iterable and returns a new one with
+     * values from those iterables. Does not maintain index associations.
+     *
+     * @param callback($value, $key) $callback
+     * @return Collection
+     */
+    public function flatMap($callback);
+
+    /**
      * Reindex the Collection using a given callback
      *
      * @param callback($value, $key) $callback
@@ -148,4 +165,20 @@ interface Collection extends Enumerable
      * @return Collection
      */
     public function unique($strict = true);
+
+    /**
+     * Get a new Collection sorted with a given comparison function
+     *
+     * @param callback($a, $b) $comparator
+     * @return Collection
+     */
+    public function sortWith($comparator);
+
+    /**
+     * Get a new Collection sorted with a given metric
+     *
+     * @param callback($value, $key) $metric
+     * @return Collection
+     */
+    public function sortBy($metric);
 }

@@ -15,7 +15,7 @@ class Functions
     final private function __construct() {}
     
     /**
-     * Get a callback to method on a class
+     * Get a callback to a method on a class
      * 
      * @param object|string $target instance or class name
      * @param string $method
@@ -31,19 +31,21 @@ class Functions
     /**
      * Get a suitable Iterator instance for a value. ArrayIterator for arrays,
      * IteratorIterator for Traversables and an iterator from the value's
-     * getIterator() method for IteratorAggregate objects.
+     * getIterator() method for IteratorAggregate objects. If the value itself
+     * is an Iterator instance, returns the value.
      * 
-     * @param array|IteratorAggregate|Traversable $value
+     * @param array|IteratorAggregate|Traversable|Iterator $value
      * @return Iterator
      * @throws InvalidArgumentException
      */
     public static function getIterator($value)
     {
         switch (true) {
-            case is_array($value): return new \ArrayIterator($value);
+            case $value instanceof \Iterator: return $value;
             case $value instanceof \IteratorAggregate: return $value->getIterator();
+            case is_array($value): return new \ArrayIterator($value);
             case $value instanceof \Traversable: return new \IteratorIterator($value);
-            default: throw new \InvalidArgumentException("Argument should be either an array, an IteratorAggregate or Traversable");
+            default: throw new \InvalidArgumentException("Argument should be one of array, Traversable, IteratorAggregate, Iterator");
         }
     }
     
@@ -88,6 +90,23 @@ class Functions
     {
         return function($object) use($method) {
             return $object->$method();
+        };
+    }
+
+    /**
+     * @param callback($value, $key) $callback
+     * @return callback(Traversable)
+     */
+    public static function flatMap($callback)
+    {
+        return function($collection) use($callback) {
+            $results = array();
+            foreach ($collection as $key => $value) {
+                foreach ($callback($value, $key) as $flattened) {
+                    $results[] = $flattened;
+                }
+            }
+            return $results;
         };
     }
     
@@ -148,5 +167,34 @@ class Functions
             return $results;
         };
         return $flatten;
+    }
+
+    /**
+     * @param callback($a, $b) $comparator
+     * @return callback(Traversable)
+     */
+    public static function sortWith($comparator)
+    {
+        return function($collection) use($comparator) {
+            $values = $collection->toArray();
+            usort($values, $comparator);
+            return $values;
+        };
+    }
+
+    /**
+     * @param callback($value, $key) $metric
+     * @return callback(Traversable)
+     */
+    public static function sortBy($metric)
+    {
+        return self::sortWith(function($a, $b) use($metric) {
+            $ma = $metric($a);
+            $mb = $metric($b);
+            if ($ma == $mb) {
+                return 0;
+            }
+            return ($ma < $mb) ? -1 : 1;
+        });
     }
 }

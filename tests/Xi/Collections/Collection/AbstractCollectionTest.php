@@ -73,6 +73,28 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         });
         $this->assertEquals($expected, $result->toArray());
     }
+
+    public function flatMapSet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('f'), array('f')),
+            array(array('foo'), array('f', 'o', 'o')),
+            array(array('foo', 'bar'), array('f', 'o', 'o', 'b', 'a', 'r')),
+            array(array('foo', 'ba', 'q'), array('f', 'o', 'o', 'b', 'a', 'q'))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider flatMapSet
+     */
+    public function shouldBeAbleToGetMapOutputAsFlat($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->flatMap(function($v) { return str_split($v); });
+        $this->assertEquals($expected, $result->toArray());
+    }
     
     public function indexedIntegerIncrementSet()
     {
@@ -177,7 +199,8 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         return array(
             array(array(), array(), array()),
             array(array(1), array(2), array(2)),
-            array(array('foo' => 1), array('foo' => 2), array('foo' => 2))
+            array(array('foo' => 1), array('foo' => 2), array('foo' => 2)),
+            array(array('bar' => 2, 'foo' => 1), array('foo' => 2), array('bar' => 2, 'foo' => 2))
         );
     }
 
