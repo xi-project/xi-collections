@@ -86,7 +86,7 @@ class SimpleCollectionView extends SimpleCollection implements CollectionView
 
     public function flatMap($callback)
     {
-        return $this->lazy($this->getReindexIteratorFor(new \RecursiveIteratorIterator($this->getFlatMapIteratorFor($this->getIterator(), $callback))));
+        return $this->lazy($this->getReindexIteratorFor($this->getFlatMapIteratorFor($this->getIterator(), $callback)));
     }
 
     public function values()
@@ -119,7 +119,7 @@ class SimpleCollectionView extends SimpleCollection implements CollectionView
 
     protected function getFlatMapIteratorFor($iterator, $callback)
     {
-        return new Util\FlatMapIterator($iterator, $callback);
+        return new \RecursiveIteratorIterator(new Util\FlatMapIterator($iterator, $callback));
     }
 
     protected function getMapIteratorFor($iterator, $callback)
