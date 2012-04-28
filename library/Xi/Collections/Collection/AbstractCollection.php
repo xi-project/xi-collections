@@ -144,6 +144,6 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
 
     public function sortBy($metric)
     {
-        return $this->apply(Functions::sortBy($comparator));
+        return $this->apply(Functions::sortBy($metric));
     }
 }

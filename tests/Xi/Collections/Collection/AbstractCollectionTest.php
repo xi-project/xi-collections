@@ -387,4 +387,48 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $result = $collection->flatten();
         $this->assertEquals($expected, $result->toArray());
     }
+
+    public function sortWithSet()
+    {
+        return array(
+            array(array(), array()),
+            array(array(1), array(1)),
+            array(array(2, 1), array(1, 2))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider sortWithSet
+     */
+    public function shouldBeAbleToSortWithComparator($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->sortWith(function($a, $b) {
+            return $a - $b;
+        });
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    public function sortBySet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('foo'), array('foo')),
+            array(array('foo', 'quxen', 'qux'), array('foo', 'qux', 'quxen'))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider sortBySet
+     */
+    public function shouldBeAbleToSortByMetric($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->sortBy(function($v) {
+            return strlen($v);
+        });
+        $this->assertEquals($expected, $result->toArray());
+    }
 }

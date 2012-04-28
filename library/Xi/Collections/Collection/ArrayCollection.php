@@ -156,7 +156,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
 
     public function sortBy($metric)
     {
-        return $this->apply(Functions::sortBy($comparator));
+        return $this->apply(Functions::sortBy($metric));
     }
 
     /**
