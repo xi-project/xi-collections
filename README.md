@@ -77,7 +77,7 @@ One of the most common use cases for looping over an array is collecting the res
 
 Picking even works for arrays (or objects implementing ArrayAccess) as well, and you don't need to care about which type the input is.
 
-## Inspect intermediate steps of complex operations
+## Inspecting intermediate steps of complex operations
 
 Suppose you have a pipeline where data is transformed according to complex rules.
 
@@ -107,6 +107,21 @@ A reader of your code will be able to immediately recognize that the part in `ta
             ->each(function($bar) { $this->logBar($bar); })
             ->map($this->fromBarToQux);
     }
+
+## Delaying computation using views
+
+In some cases you may wish to expose a certain Collection to a consumer, but are not certain whether the Collection is going to be used, and generating one is potentially costly. In such a case you can apply a CollectionView, which is a set of transformation operations that haven't yet been applied to an underlying base Collection. Upon access, the operations will be applied and the resulting values provided to the consumer.
+
+A Collection is transformed into a view backed by itself by invoking `view`. Best effort is made to apply all Collection method calls lazily. Forcing the view into actual values happens when accessing any Enumerator methods.
+
+    public function getEnormouslyExpensiveCollection()
+    {
+        return $this->getStuff()->view()->map(function(Stuff $s) {
+            return enormouslyExpensiveComputation($s);
+        });
+    }
+
+There's a caveat, however. It is not guaranteed that the transformation from lazy to strict should happen exactly once per CollectionView object. If you need that, you should `force` the view object to get a strict one.
 
 ## Using an extended API on the fly
 
@@ -169,6 +184,10 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 `unique`: Get a Collection with only the unique values from this one  
 `sortWith`: Get this Collection sorted with a given comparison function  
 `sortBy`: Get this Collection sorted with a given metric  
+
+## CollectionView
+
+`force`: Coerces this view back into the underlying Collection type  
 
 ## Collection implementations
 
