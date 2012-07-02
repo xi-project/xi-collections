@@ -114,8 +114,7 @@ In some cases you may wish to expose a certain Collection to a consumer, but are
 
 A Collection is transformed into a view backed by itself by invoking `view`. Best effort is made to apply all Collection method calls lazily. Forcing the view into actual values happens when accessing any Enumerator methods.
 
-    public function getEnormouslyExpensiveCollection()
-    {
+    public function getEnormouslyExpensiveCollection() {
         return $this->getStuff()->view()->map(function(Stuff $s) {
             return enormouslyExpensiveComputation($s);
         });
