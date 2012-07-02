@@ -6,14 +6,36 @@ use Xi\Collections\Enumerable\AbstractEnumerableTest,
 abstract class AbstractCollectionTest extends AbstractEnumerableTest
 {
     /**
-     * @param array $elements
+     * @param array $elements optional
      * @return \Xi\Collections\Collection
      */
     abstract public function getCollection($elements = array());
 
+    /**
+     * @param array $elements optional
+     * @return \Xi\Collections\Collection
+     */
     public function getEnumerable($elements = array())
     {
         return $this->getCollection($elements);
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function unit()
+    {
+        return array();
+    }
+
+    /**
+     * @test
+     */
+    public function creatorFunctionShouldBeLateStaticBound()
+    {
+        $collection = $this->getCollection();
+        $class = get_class($collection);
+        $this->assertEquals(get_class($class::getCreator()->__invoke($this->unit())), $class);
     }
 
     /**
