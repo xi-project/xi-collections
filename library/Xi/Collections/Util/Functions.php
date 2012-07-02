@@ -51,7 +51,7 @@ class Functions
     
     /**
      * @param boolean $strict optional, defaults to true
-     * @return callback(mixed)
+     * @return callback($collection)
      */
     public static function unique($strict = true)
     {

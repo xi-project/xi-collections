@@ -388,6 +388,60 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $this->assertEquals($expected, $result->toArray());
     }
 
+    /**
+     * @return array
+     */
+    public function strictlyUniqueSet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('foo', 'bar'), array('foo', 'bar')),
+            array(array('foo', 'foo'), array('foo')),
+            array(array($a = new \stdClass, $b = new \stdClass), array($a, $b)),
+            array(array($o = new \stdClass, $o), array($o))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider strictlyUniqueSet
+     */
+    public function shouldBeAbleToFilterUniquesStrictly($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->unique();
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function nonStrictlyUniqueSet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('foo', 'bar'), array('foo', 'bar')),
+            array(array('foo', 'foo'), array('foo')),
+            array(array('100', 100), array('100')),
+            array(array(100, '100'), array(100))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider nonStrictlyUniqueSet
+     */
+    public function shouldBeAbleToFilterUniquesNonStrictly($elements, $expected)
+    {
+        // FIXME: The boolean parameter implies a code smell
+        $collection = $this->getCollection($elements);
+        $result = $collection->unique(false);
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    /**
+     * @return array
+     */
     public function sortWithSet()
     {
         return array(

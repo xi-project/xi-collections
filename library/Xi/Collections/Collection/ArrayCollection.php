@@ -144,7 +144,8 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     public function unique($strict = true)
     {
         if (false === $strict) {
-            return static::create(array_unique($this->_elements));
+            // array_unique can't check for strict uniqueness
+            return static::create(array_unique($this->_elements, SORT_REGULAR));
         }
         return $this->apply(Functions::unique($strict));
     }
