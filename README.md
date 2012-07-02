@@ -152,10 +152,11 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 ## Collection
 
+`view`: Provides a Collection where transformer operations are applied lazily
 `apply`: Creates a new Collection of this type from the output of a given callback that takes this Collection as its argument  
 `take`: Creates a new Collection with up to $number first elements from this one  
 `map`: Applies a callback for each value-key-pair in the Collection and returns a new one with values replaced by the return values from the callback  
-`filter`: Creates a collection with the values of this collection that match a given predicate  
+`filter`: Creates a Collection with the values of this collection that match a given predicate  
 `concatenate`: Creates a Collection with elements from this and another one  
 `union`: Creates a Collection with key-value pairs in the `$other` Collection overriding ones in `$this` Collection  
 `values`: Get a Collection with just the values from this Collection  
@@ -166,8 +167,10 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 `invoke`: Map this Collection by invoking a method on every value  
 `flatten`: Flatten nested arrays and Traversables  
 `unique`: Get a Collection with only the unique values from this one  
+`sortWith`: Get this Collection sorted with a given comparison function  
+`sortBy`: Get this Collection sorted with a given metric  
 
-## Most relevant Collection implementations
+## Collection implementations
 
 `ArrayCollection`: Basic Collection backed by a plain PHP array.  
 `OuterCollection`: A decorator for a Collection. Can easily be extended to provide more collection operations without locking down the implementation specifics.  
@@ -180,5 +183,5 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 # TODO
 
 - Collection implementations backed by SPL (SplFixedArray, SplDoublyLinkedList?)
-- Once PHP 5.4 comes about, implementations can be significantly simplified using traits
-- The option to lazily apply some of the available transformations
+- Once PHP 5.4 is feasible to use, implementations can be significantly simplified using traits
+
