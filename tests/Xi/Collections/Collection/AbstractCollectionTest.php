@@ -352,6 +352,16 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $result = $collection->pick('foo');
         $this->assertEquals($expected, $result->toArray());
     }
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToMapByInvokingMethodOnElements()
+    {
+        $collection = $this->getCollection(array(function() { return 'foo'; }));
+        $result = $collection->invoke('__invoke');
+        $this->assertEquals(array('foo'), $result->toArray());
+    }
     
     public function flattenArraySet()
     {
