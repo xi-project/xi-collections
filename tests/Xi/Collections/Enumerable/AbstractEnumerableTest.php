@@ -14,12 +14,12 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldProvideSelfToCallbackWhenTapped()
     {
-        $result = new Result();
+        $result = null;
         $enum = $this->getEnumerable();
-        $enum->tap(function($v) use($result) {
-            $result->resolve($v);
+        $enum->tap(function($v) use(&$result) {
+            $result = $v;
         });
-        $this->assertSame($enum, $result->get());
+        $this->assertSame($enum, $result);
     }
 
     public function mixedElements()
