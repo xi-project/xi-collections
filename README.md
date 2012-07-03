@@ -166,7 +166,7 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 ## Collection
 
-`view`: Provides a Collection where transformer operations are applied lazily
+`view`: Provides a Collection where transformer operations are applied lazily  
 `apply`: Creates a new Collection of this type from the output of a given callback that takes this Collection as its argument  
 `take`: Creates a new Collection with up to $number first elements from this one  
 `map`: Applies a callback for each value-key-pair in the Collection and returns a new one with values replaced by the return values from the callback  
