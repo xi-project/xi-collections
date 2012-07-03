@@ -77,7 +77,7 @@ One of the most common use cases for looping over an array is collecting the res
 
 Picking even works for arrays (or objects implementing ArrayAccess) as well, and you don't need to care about which type the input is.
 
-## Inspect intermediate steps of complex operations
+## Inspecting intermediate steps of complex operations
 
 Suppose you have a pipeline where data is transformed according to complex rules.
 
@@ -107,6 +107,20 @@ A reader of your code will be able to immediately recognize that the part in `ta
             ->each(function($bar) { $this->logBar($bar); })
             ->map($this->fromBarToQux);
     }
+
+## Delaying computation using views
+
+In some cases you may wish to expose a certain Collection to a consumer, but are not certain whether the Collection is going to be used, and generating one is potentially costly. In such a case you can apply a CollectionView, which is a set of transformation operations that haven't yet been applied to an underlying base Collection. Upon access, the operations will be applied and the resulting values provided to the consumer.
+
+A Collection is transformed into a view backed by itself by invoking `view`. Best effort is made to apply all Collection method calls lazily. Forcing the view into actual values happens when accessing any Enumerator methods.
+
+    public function getEnormouslyExpensiveCollection() {
+        return $this->getStuff()->view()->map(function(Stuff $s) {
+            return enormouslyExpensiveComputation($s);
+        });
+    }
+
+There's a caveat, however. It is not guaranteed that the transformation from lazy to strict should happen exactly once per CollectionView object. If you need that, you should `force` the view object to get a strict one.
 
 ## Using an extended API on the fly
 
@@ -152,10 +166,11 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 ## Collection
 
+`view`: Provides a Collection where transformer operations are applied lazily  
 `apply`: Creates a new Collection of this type from the output of a given callback that takes this Collection as its argument  
 `take`: Creates a new Collection with up to $number first elements from this one  
 `map`: Applies a callback for each value-key-pair in the Collection and returns a new one with values replaced by the return values from the callback  
-`filter`: Creates a collection with the values of this collection that match a given predicate  
+`filter`: Creates a Collection with the values of this collection that match a given predicate  
 `concatenate`: Creates a Collection with elements from this and another one  
 `union`: Creates a Collection with key-value pairs in the `$other` Collection overriding ones in `$this` Collection  
 `values`: Get a Collection with just the values from this Collection  
@@ -166,8 +181,14 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 `invoke`: Map this Collection by invoking a method on every value  
 `flatten`: Flatten nested arrays and Traversables  
 `unique`: Get a Collection with only the unique values from this one  
+`sortWith`: Get this Collection sorted with a given comparison function  
+`sortBy`: Get this Collection sorted with a given metric  
 
-## Most relevant Collection implementations
+## CollectionView
+
+`force`: Coerces this view back into the underlying Collection type  
+
+## Collection implementations
 
 `ArrayCollection`: Basic Collection backed by a plain PHP array.  
 `OuterCollection`: A decorator for a Collection. Can easily be extended to provide more collection operations without locking down the implementation specifics.  
@@ -180,5 +201,5 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 # TODO
 
 - Collection implementations backed by SPL (SplFixedArray, SplDoublyLinkedList?)
-- Once PHP 5.4 comes about, implementations can be significantly simplified using traits
-- The option to lazily apply some of the available transformations
+- Once PHP 5.4 is feasible to use, implementations can be significantly simplified using traits
+

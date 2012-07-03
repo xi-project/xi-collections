@@ -52,6 +52,11 @@ class OuterCollection extends OuterEnumerable implements Collection
         return Functions::getCallback(get_called_class(), 'create');
     }
 
+    public function view()
+    {
+        return new SimpleCollectionView($this, static::getCreator());
+    }
+
     public function apply($callback)
     {
         return static::create($this->collection->apply($callback));
@@ -92,6 +97,11 @@ class OuterCollection extends OuterEnumerable implements Collection
         return static::create($this->collection->keys());
     }
 
+    public function flatMap($callback)
+    {
+        return static::create($this->collection->flatMap($callback));
+    }
+
     public function indexBy($callback)
     {
         return static::create($this->collection->indexBy($callback));
@@ -120,5 +130,15 @@ class OuterCollection extends OuterEnumerable implements Collection
     public function unique($strict = true)
     {
         return static::create($this->collection->unique($strict));
+    }
+
+    public function sortWith($comparator)
+    {
+        return static::create($this->collection->sortWith($comparator));
+    }
+
+    public function sortBy($metric)
+    {
+        return static::create($this->collection->sortBy($metric));
     }
 }

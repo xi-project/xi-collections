@@ -7,4 +7,9 @@ class OuterCollectionTest extends AbstractCollectionTest
     {
         return OuterCollection::create(ArrayCollection::create($elements));
     }
+
+    protected function unit()
+    {
+        return ArrayCollection::create(parent::unit());
+    }
 }

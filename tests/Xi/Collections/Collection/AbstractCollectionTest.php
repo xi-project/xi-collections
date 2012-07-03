@@ -6,14 +6,36 @@ use Xi\Collections\Enumerable\AbstractEnumerableTest,
 abstract class AbstractCollectionTest extends AbstractEnumerableTest
 {
     /**
-     * @param array $elements
+     * @param array $elements optional
      * @return \Xi\Collections\Collection
      */
     abstract public function getCollection($elements = array());
 
+    /**
+     * @param array $elements optional
+     * @return \Xi\Collections\Collection
+     */
     public function getEnumerable($elements = array())
     {
         return $this->getCollection($elements);
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function unit()
+    {
+        return array();
+    }
+
+    /**
+     * @test
+     */
+    public function creatorFunctionShouldBeLateStaticBound()
+    {
+        $collection = $this->getCollection();
+        $class = get_class($collection);
+        $this->assertEquals(get_class($class::getCreator()->__invoke($this->unit())), $class);
     }
 
     /**
@@ -71,6 +93,28 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $result = $collection->map(function ($v) {
             return $v + 1;
         });
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    public function flatMapSet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('f'), array('f')),
+            array(array('foo'), array('f', 'o', 'o')),
+            array(array('foo', 'bar'), array('f', 'o', 'o', 'b', 'a', 'r')),
+            array(array('foo', 'ba', 'q'), array('f', 'o', 'o', 'b', 'a', 'q'))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider flatMapSet
+     */
+    public function shouldBeAbleToGetMapOutputAsFlat($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->flatMap(function($v) { return str_split($v); });
         $this->assertEquals($expected, $result->toArray());
     }
     
@@ -177,7 +221,8 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         return array(
             array(array(), array(), array()),
             array(array(1), array(2), array(2)),
-            array(array('foo' => 1), array('foo' => 2), array('foo' => 2))
+            array(array('foo' => 1), array('foo' => 2), array('foo' => 2)),
+            array(array('bar' => 2, 'foo' => 1), array('foo' => 2), array('bar' => 2, 'foo' => 2))
         );
     }
 
@@ -307,6 +352,16 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $result = $collection->pick('foo');
         $this->assertEquals($expected, $result->toArray());
     }
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToMapByInvokingMethodOnElements()
+    {
+        $collection = $this->getCollection(array(function() { return 'foo'; }));
+        $result = $collection->invoke('__invoke');
+        $this->assertEquals(array('foo'), $result->toArray());
+    }
     
     public function flattenArraySet()
     {
@@ -362,6 +417,104 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
     {
         $collection = $this->getCollection($elements);
         $result = $collection->flatten();
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function strictlyUniqueSet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('foo', 'bar'), array('foo', 'bar')),
+            array(array('foo', 'foo'), array('foo')),
+            array(array($a = new \stdClass, $b = new \stdClass), array($a, $b)),
+            array(array($o = new \stdClass, $o), array($o))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider strictlyUniqueSet
+     */
+    public function shouldBeAbleToFilterUniquesStrictly($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->unique();
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function nonStrictlyUniqueSet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('foo', 'bar'), array('foo', 'bar')),
+            array(array('foo', 'foo'), array('foo')),
+            array(array('100', 100), array('100')),
+            array(array(100, '100'), array(100))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider nonStrictlyUniqueSet
+     */
+    public function shouldBeAbleToFilterUniquesNonStrictly($elements, $expected)
+    {
+        // FIXME: The boolean parameter implies a code smell
+        $collection = $this->getCollection($elements);
+        $result = $collection->unique(false);
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function sortWithSet()
+    {
+        return array(
+            array(array(), array()),
+            array(array(1), array(1)),
+            array(array(2, 1), array(1, 2))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider sortWithSet
+     */
+    public function shouldBeAbleToSortWithComparator($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->sortWith(function($a, $b) {
+            return $a - $b;
+        });
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    public function sortBySet()
+    {
+        return array(
+            array(array(), array()),
+            array(array('foo'), array('foo')),
+            array(array('foo', 'quxen', 'qux'), array('foo', 'qux', 'quxen'))
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider sortBySet
+     */
+    public function shouldBeAbleToSortByMetric($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->sortBy(function($v) {
+            return strlen($v);
+        });
         $this->assertEquals($expected, $result->toArray());
     }
 }

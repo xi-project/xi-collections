@@ -29,6 +29,11 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     {
         return Functions::getCallback(get_called_class(), 'create');
     }
+
+    public function view()
+    {
+        return new SimpleCollectionView($this, static::getCreator());
+    }
     
     public function apply($callback)
     {
@@ -106,6 +111,11 @@ class ArrayCollection extends ArrayEnumerable implements Collection
         return static::create(array_keys($this->_elements));
     }
 
+    public function flatMap($callback)
+    {
+        return $this->apply(Functions::flatMap($callback));
+    }
+
     public function indexBy($callback)
     {
         return $this->apply(Functions::indexBy($callback));
@@ -134,9 +144,20 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     public function unique($strict = true)
     {
         if (false === $strict) {
-            return static::create(array_unique($this->_elements));
+            // array_unique can't check for strict uniqueness
+            return static::create(array_unique($this->_elements, SORT_REGULAR));
         }
         return $this->apply(Functions::unique($strict));
+    }
+
+    public function sortWith($comparator)
+    {
+        return $this->apply(Functions::sortWith($comparator));
+    }
+
+    public function sortBy($metric)
+    {
+        return $this->apply(Functions::sortBy($metric));
     }
 
     /**
