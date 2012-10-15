@@ -1,0 +1,23 @@
+{
+    "name": "xi/collections",
+    "type": "library",
+    "description": "Functional, immutable and extensible enumerations and collections for PHP 5.3.",
+    "keywords": ["collections"],
+    "homepage": "http://github.com/xi-project/xi-collections",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Eevert Saukkokoski",
+            "email": "eevert.saukkokoski@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Xi\\Collections": "library/"
+        }
+    }
+}
