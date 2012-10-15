@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Xi\\Collections": "library/"
+            "Xi\\Collections": ["library/", "tests/"]
         }
     }
 }
