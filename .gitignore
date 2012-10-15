@@ -2,3 +2,6 @@
 /.idea
 /tests/phpunit.xml
 /tests/coverage
+/vendor/
+composer.phar
+composer.lock
