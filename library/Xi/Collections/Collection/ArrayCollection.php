@@ -176,4 +176,20 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     {
         return static::create(array_merge($this->_elements, $other->toArray()));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function add($value, $key = null)
+    {
+        $results = $this->toArray();
+
+        if ($key === null) {
+            $results[] = $value;
+        } else {
+            $results[$key] = $value;
+        }
+
+        return static::create($results);
+    }
 }

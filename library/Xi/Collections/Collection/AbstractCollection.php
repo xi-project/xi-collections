@@ -146,4 +146,20 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
     {
         return $this->apply(Functions::sortBy($metric));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function add($value, $key = null)
+    {
+        $results = $this->toArray();
+
+        if ($key === null) {
+            $results[] = $value;
+        } else {
+            $results[$key] = $value;
+        }
+
+        return static::create($results);
+    }
 }
