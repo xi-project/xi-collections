@@ -141,4 +141,12 @@ class OuterCollection extends OuterEnumerable implements Collection
     {
         return static::create($this->collection->sortBy($metric));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function add($value, $key = null)
+    {
+        return static::create($this->collection->add($value, $key));
+    }
 }

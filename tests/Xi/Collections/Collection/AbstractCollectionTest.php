@@ -517,4 +517,59 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         });
         $this->assertEquals($expected, $result->toArray());
     }
+
+    /**
+     * @test
+     * @dataProvider addValue
+     *
+     * @param array $elements
+     * @param mixed $value
+     * @param array $expected
+     */
+    public function shouldBeAbleToAddValue(array $elements, $value, array $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->add($value);
+
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function addValue()
+    {
+        return array(
+            array(array('a', 'b'), 'c', array('a', 'b', 'c')),
+            array(array(1, 3), 2, array(1, 3, 2)),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider addKeyAndValue
+     *
+     * @param array $elements
+     * @param mixed $key
+     * @param mixed $value
+     * @param array $expected
+     */
+    public function shouldBeAbleToAddKeyAndValue(array $elements, $key, $value, array $expected)
+    {
+        $collection = $this->getCollection($elements);
+        $result = $collection->add($value, $key);
+
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function addKeyAndValue()
+    {
+        return array(
+            array(array('a' => 'b'), 'c', 'd', array('a' => 'b', 'c' => 'd')),
+            array(array(1 => 'a', 3 => 'b'), 2, 'c', array(1 => 'a', 3 => 'b', 2 => 'c')),
+        );
+    }
 }

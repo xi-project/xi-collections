@@ -181,4 +181,14 @@ interface Collection extends Enumerable
      * @return Collection
      */
     public function sortBy($metric);
+
+    /**
+     * Get a new Collection with given value and optionally key appended.
+     * Maintains index associations.
+     *
+     * @param  mixed      $value
+     * @param  mixed      $key
+     * @return Collection
+     */
+    public function add($value, $key = null);
 }
