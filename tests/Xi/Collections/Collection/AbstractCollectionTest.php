@@ -572,4 +572,74 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array(1 => 'a', 3 => 'b'), 2, 'c', array(1 => 'a', 3 => 'b', 2 => 'c')),
         );
     }
+
+    /**
+     * @test
+     * @dataProvider minimumProvider
+     */
+    public function shouldBeAbleToGetMinimumOfValues($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $this->assertEquals($expected, $collection->min());
+    }
+
+    /**
+     * @return array
+     */
+    public function minimumProvider()
+    {
+        return array(
+            array(array(), null),
+            array(array(1, 2, 3), 1),
+            array(array(5, 2), 2),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider maximumProvider
+     */
+    public function shouldBeAbleToGetMaximumOfValues($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $this->assertEquals($expected, $collection->max());
+    }
+
+    /**
+     * @return array
+     */
+    public function maximumProvider()
+    {
+        return array(
+            array(array(), null),
+            array(array(1, 2, 3), 3),
+            array(array(5, 2), 5),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider sumProvider
+     */
+    public function shouldBeAbleToGetSumOfValues($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $this->assertEquals($expected, $collection->sum());
+    }
+
+    /**
+     * @return array
+     */
+    public function sumProvider()
+    {
+        return array(
+            array(array(), null),
+            array(array(0), 0),
+            array(array(1, 2), 3),
+            array(array(2, 4, 6), 12),
+        );
+    }
 }

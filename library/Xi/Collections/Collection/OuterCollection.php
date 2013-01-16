@@ -149,4 +149,28 @@ class OuterCollection extends OuterEnumerable implements Collection
     {
         return static::create($this->collection->add($value, $key));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function min()
+    {
+        return $this->collection->min();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function max()
+    {
+        return $this->collection->max();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sum()
+    {
+        return $this->collection->sum();
+    }
 }

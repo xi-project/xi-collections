@@ -162,4 +162,50 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
 
         return static::create($results);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function min()
+    {
+        $min = null;
+
+        foreach ($this as $value) {
+            if ($min === null || $value < $min) {
+                $min = $value;
+            }
+        }
+
+        return $min;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function max()
+    {
+        $max = null;
+
+        foreach ($this as $value) {
+            if ($max === null || $value > $max) {
+                $max = $value;
+            }
+        }
+
+        return $max;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sum()
+    {
+        $sum = null;
+
+        foreach ($this as $value) {
+            $sum += $value;
+        }
+
+        return $sum;
+    }
 }

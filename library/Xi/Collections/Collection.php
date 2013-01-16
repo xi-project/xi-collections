@@ -191,4 +191,25 @@ interface Collection extends Enumerable
      * @return Collection
      */
     public function add($value, $key = null);
+
+    /**
+     * Returns the minimum value in the collection.
+     *
+     * @return mixed|null
+     */
+    public function min();
+
+    /**
+     * Returns the maximum value in the collection.
+     *
+     * @return mixed|null
+     */
+    public function max();
+
+    /**
+     * Returns the sum of values in the collection.
+     *
+     * @return mixed|null
+     */
+    public function sum();
 }

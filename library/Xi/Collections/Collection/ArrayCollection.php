@@ -192,4 +192,36 @@ class ArrayCollection extends ArrayEnumerable implements Collection
 
         return static::create($results);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function min()
+    {
+        return $this->applyOrNull('min');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function max()
+    {
+        return $this->applyOrNull('max');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sum()
+    {
+        return $this->applyOrNull('array_sum');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function applyOrNull($callback)
+    {
+        return !empty($this->_elements) ? $callback($this->_elements) : null;
+    }
 }
