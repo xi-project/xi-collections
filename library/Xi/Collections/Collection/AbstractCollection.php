@@ -208,4 +208,22 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
 
         return $sum;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function product()
+    {
+        $product = null;
+
+        foreach ($this as $value) {
+            if ($product === null) {
+                $product = $value;
+            } else {
+                $product *= $value;
+            }
+        }
+
+        return $product;
+    }
 }

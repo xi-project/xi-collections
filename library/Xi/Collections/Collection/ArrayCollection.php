@@ -220,6 +220,14 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     /**
      * {@inheritdoc}
      */
+    public function product()
+    {
+        return $this->applyOrNull('array_product');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     private function applyOrNull($callback)
     {
         return !empty($this->_elements) ? $callback($this->_elements) : null;

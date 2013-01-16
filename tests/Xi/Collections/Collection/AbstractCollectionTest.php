@@ -642,4 +642,28 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array(2, 4, 6), 12),
         );
     }
+
+    /**
+     * @test
+     * @dataProvider productProvider
+     */
+    public function shouldBeAbleToGetProductOfValues($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $this->assertEquals($expected, $collection->product());
+    }
+
+    /**
+     * @return array
+     */
+    public function productProvider()
+    {
+        return array(
+            array(array(), null),
+            array(array(0), 0),
+            array(array(1, 2), 2),
+            array(array(2, 3, 5), 30),
+        );
+    }
 }

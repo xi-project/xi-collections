@@ -212,4 +212,11 @@ interface Collection extends Enumerable
      * @return mixed|null
      */
     public function sum();
+
+    /**
+     * Returns the product of values in the collection.
+     *
+     * @return mixed|null
+     */
+    public function product();
 }

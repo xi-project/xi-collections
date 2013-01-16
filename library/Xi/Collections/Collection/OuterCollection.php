@@ -173,4 +173,12 @@ class OuterCollection extends OuterEnumerable implements Collection
     {
         return $this->collection->sum();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function product()
+    {
+        return $this->collection->product();
+    }
 }
