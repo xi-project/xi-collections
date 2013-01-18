@@ -226,4 +226,27 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
 
         return $product;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rest()
+    {
+        $results = array();
+        $first = true;
+
+        foreach ($this as $key => $value) {
+            if (!$first) {
+                if (is_int($key)) {
+                    $results[] = $value;
+                } else {
+                    $results[$key] = $value;
+                }
+            }
+
+            $first = false;
+        }
+
+        return static::create($results);
+    }
 }

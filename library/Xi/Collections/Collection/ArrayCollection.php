@@ -49,6 +49,14 @@ class ArrayCollection extends ArrayEnumerable implements Collection
         return static::create($result);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function rest()
+    {
+        return static::create(array_slice($this->_elements, 1));
+    }
+
     public function filter($callback = null)
     {
         // Passing null to array_filter results in error, but omitting the second argument is ok.

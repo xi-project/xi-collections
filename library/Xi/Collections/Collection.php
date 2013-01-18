@@ -57,6 +57,14 @@ interface Collection extends Enumerable
     public function take($number);
 
     /**
+     * Creates a new Collection with the rest of the elements except first.
+     * Does not maintain index associations for numeric keys.
+     *
+     * @return Collection
+     */
+    public function rest();
+
+    /**
      * Applies a callback for each value-key-pair in the Collection and returns
      * a new one with values replaced by the return values from the callback.
      * Maintains index associations.
