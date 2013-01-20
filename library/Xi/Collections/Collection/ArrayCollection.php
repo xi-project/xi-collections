@@ -67,6 +67,26 @@ class ArrayCollection extends ArrayEnumerable implements Collection
         return static::create($result);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function partition($predicate)
+    {
+        $filterNot = function ($predicate) {
+            $results = array();
+
+            foreach ($this as $key => $value) {
+                if (!$predicate($value, $key)) {
+                    $results[$key] = $value;
+                }
+            }
+
+            return static::create($results);
+        };
+
+        return static::create(array($this->filter($predicate), $filterNot($predicate)));
+    }
+
     public function map($callback)
     {
         // Providing keys to the callback manually, because index associations

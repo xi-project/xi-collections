@@ -85,6 +85,14 @@ class OuterCollection extends OuterEnumerable implements Collection
         return static::create($this->collection->filter($predicate));
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function partition($predicate)
+    {
+        return static::create($this->collection->partition($predicate));
+    }
+
     public function concatenate($other)
     {
         return static::create($this->collection->concatenate($other));

@@ -85,6 +85,16 @@ interface Collection extends Enumerable
     public function filter($predicate = null);
 
     /**
+     * Split a collection into a pair of two collections; one with elements that
+     * match a given predicate, the other with the elements that do not.
+     * Maintains index associations.
+     *
+     * @param callable($value, $key) $predicate
+     * @return Collection
+     */
+    public function partition($predicate);
+
+    /**
      * Creates a Collection with elements from this and another one. Does not
      * maintain index associations.
      *

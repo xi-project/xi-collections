@@ -693,4 +693,61 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array(0 => 'a', 1 => 'b', '2' => 'c', 3 => 'd'), array(0 => 'b', 1 => 'c', 2 => 'd')),
         );
     }
+
+    /**
+     * @test
+     * @dataProvider partitionElements
+     */
+    public function shouldBeAbleToPartitionElements($elements, $first, $second)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->partition(
+            function ($value) {
+                return $value < 3;
+            }
+        );
+
+        $this->assertEquals($first, array_values($result->first()->toArray()));
+        $this->assertEquals($second, array_values($result->last()->toArray()));
+    }
+
+    /**
+     * @return array
+     */
+    public function partitionElements()
+    {
+        return array(
+            array(array(), array(), array()),
+            array(array(1, 2, 3), array(1, 2), array(3)),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider partitionWithIndexedElements
+     */
+    public function partitionShouldMaintainIndexAssociations($elements, $first, $second)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->partition(
+            function ($value) {
+                return $value < 3;
+            }
+        );
+
+        $this->assertEquals($first, $result->first()->toArray());
+        $this->assertEquals($second, $result->last()->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function partitionWithIndexedElements()
+    {
+        return array(
+            array(array(2 => 2, 3 => 3), array(2 => 2), array(3 => 3)),
+        );
+    }
 }
