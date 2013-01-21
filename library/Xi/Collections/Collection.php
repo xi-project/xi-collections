@@ -85,6 +85,16 @@ interface Collection extends Enumerable
     public function filter($predicate = null);
 
     /**
+     * Creates a collection with the values of this collection that do not match
+     * a given predicate. If the predicate is omitted, the values will simply be
+     * checked for falsiness. Maintains index associations.
+     *
+     * @param callable($value, $key) $predicate
+     * @return mixed
+     */
+    public function filterNot($predicate = null);
+
+    /**
      * Split a collection into a pair of two collections; one with elements that
      * match a given predicate, the other with the elements that do not.
      * Maintains index associations.

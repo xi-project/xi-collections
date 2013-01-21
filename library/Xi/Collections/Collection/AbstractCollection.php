@@ -49,9 +49,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
     public function filter($predicate = null)
     {
         if (null === $predicate) {
-            $predicate = function($value) {
-                return !empty($value);
-            };
+            $predicate = $this->notEmptyFilter();
         }
 
         $results = array();
@@ -64,23 +62,41 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
     }
 
     /**
+     * @return callable
+     */
+    private function notEmptyFilter()
+    {
+        return function ($value) {
+            return !empty($value);
+        };
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterNot($predicate = null)
+    {
+        if (null === $predicate) {
+            $predicate = $this->notEmptyFilter();
+        }
+
+        $results = array();
+
+        foreach ($this as $key => $value) {
+            if (!$predicate($value, $key)) {
+                $results[$key] = $value;
+            }
+        }
+
+        return static::create($results);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function partition($predicate)
     {
-        $filterNot = function ($predicate) {
-            $results = array();
-
-            foreach ($this as $key => $value) {
-                if (!$predicate($value, $key)) {
-                    $results[$key] = $value;
-                }
-            }
-
-            return static::create($results);
-        };
-
-        return static::create(array($this->filter($predicate), $filterNot($predicate)));
+        return static::create(array($this->filter($predicate), $this->filterNot($predicate)));
     }
 
     public function concatenate($other)

@@ -88,6 +88,14 @@ class OuterCollection extends OuterEnumerable implements Collection
     /**
      * {@inheritdoc}
      */
+    public function filterNot($predicate = null)
+    {
+        return static::create($this->collection->filterNot($predicate));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function partition($predicate)
     {
         return static::create($this->collection->partition($predicate));

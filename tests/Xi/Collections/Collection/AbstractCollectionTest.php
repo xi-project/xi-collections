@@ -194,6 +194,57 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         });
         $this->assertEquals($expected, array_values($result->toArray()));
     }
+
+    /**
+     * @test
+     * @dataProvider falsinessSet
+     */
+    public function shouldBeAbleToFilterNotForFalsinessByDefault($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->filterNot();
+
+        $this->assertEquals($expected, array_values($result->toArray()));
+    }
+
+    /**
+     * @return array
+     */
+    public function falsinessSet()
+    {
+        return array(
+            array(array(true, false), array(false)),
+            array(array(-1, 0, 1), array(0)),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider filterNotElements
+     */
+    public function shouldBeAbleToFilterNotByCustomCriteria($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->filterNot(
+            function ($value) {
+                return $value === 2;
+            }
+        );
+
+        $this->assertEquals($expected, array_values($result->toArray()));
+    }
+
+    /**
+     * @return array
+     */
+    public function filterNotElements()
+    {
+        return array(
+            array(array(1, 2, 3), array(1, 3)),
+        );
+    }
     
     public function concatSet()
     {

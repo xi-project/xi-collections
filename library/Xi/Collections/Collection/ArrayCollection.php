@@ -70,21 +70,31 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     /**
      * {@inheritdoc}
      */
+    public function filterNot($predicate = null)
+    {
+        if (null === $predicate) {
+            $predicate = function ($value) {
+                return !empty($value);
+            };
+        }
+
+        $results = array();
+
+        foreach ($this as $key => $value) {
+            if (!$predicate($value, $key)) {
+                $results[$key] = $value;
+            }
+        }
+
+        return static::create($results);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function partition($predicate)
     {
-        $filterNot = function ($predicate) {
-            $results = array();
-
-            foreach ($this as $key => $value) {
-                if (!$predicate($value, $key)) {
-                    $results[$key] = $value;
-                }
-            }
-
-            return static::create($results);
-        };
-
-        return static::create(array($this->filter($predicate), $filterNot($predicate)));
+        return static::create(array($this->filter($predicate), $this->filterNot($predicate)));
     }
 
     public function map($callback)
