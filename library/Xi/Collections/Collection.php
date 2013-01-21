@@ -247,4 +247,11 @@ interface Collection extends Enumerable
      * @return mixed|null
      */
     public function product();
+
+    /**
+     * Checks whether the collection is empty.
+     *
+     * @return boolean
+     */
+    public function isEmpty();
 }

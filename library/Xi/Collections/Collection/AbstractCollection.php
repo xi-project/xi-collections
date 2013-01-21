@@ -285,4 +285,12 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
 
         return static::create($results);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmpty()
+    {
+        return $this->count() === 0;
+    }
 }

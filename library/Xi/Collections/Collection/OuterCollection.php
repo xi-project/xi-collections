@@ -205,4 +205,12 @@ class OuterCollection extends OuterEnumerable implements Collection
     {
         return $this->collection->product();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmpty()
+    {
+        return $this->collection->isEmpty();
+    }
 }

@@ -801,4 +801,24 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array(2 => 2, 3 => 3), array(2 => 2), array(3 => 3)),
         );
     }
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToCheckForEmpty()
+    {
+        $collection = $this->getCollection();
+
+        $this->assertTrue($collection->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToCheckForNotEmpty()
+    {
+        $collection = $this->getCollection(array('a'));
+
+        $this->assertFalse($collection->isEmpty());
+    }
 }

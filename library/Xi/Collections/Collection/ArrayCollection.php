@@ -270,4 +270,12 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     {
         return !empty($this->_elements) ? $callback($this->_elements) : null;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmpty()
+    {
+        return $this->count() === 0;
+    }
 }
