@@ -10,6 +10,11 @@
             "name": "Eevert Saukkokoski",
             "email": "eevert.saukkokoski@gmail.com",
             "role": "Developer"
+        },
+        {
+            "name": "Mikko Hirvonen",
+            "email": "mikko.petteri.hirvonen@gmail.com",
+            "role": "Developer"
         }
     ],
     "require": {
