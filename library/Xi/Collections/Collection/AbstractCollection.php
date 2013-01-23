@@ -273,11 +273,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
 
         foreach ($this as $key => $value) {
             if (!$first) {
-                if (is_int($key)) {
-                    $results[] = $value;
-                } else {
-                    $results[$key] = $value;
-                }
+                $results[$key] = $value;
             }
 
             $first = false;

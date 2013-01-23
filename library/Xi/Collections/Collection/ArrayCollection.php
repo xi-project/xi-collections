@@ -54,7 +54,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     public function rest()
     {
-        return static::create(array_slice($this->_elements, 1));
+        return static::create(array_slice($this->_elements, 1, null, true));
     }
 
     public function filter($callback = null)

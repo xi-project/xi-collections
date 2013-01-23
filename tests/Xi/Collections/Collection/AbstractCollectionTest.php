@@ -728,7 +728,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
 
         $result = $collection->rest();
 
-        $this->assertEquals($expected, $result->toArray());
+        $this->assertEquals($expected, array_values($result->toArray()));
     }
 
     /**
@@ -740,8 +740,30 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array(), array()),
             array(array('a'), array()),
             array(array('a', 'b', 'c'), array('b', 'c')),
-            array(array(1 => 'a', 2 => 'b', 'c' => 'd'), array(0 => 'b', 'c' => 'd')),
-            array(array(0 => 'a', 1 => 'b', '2' => 'c', 3 => 'd'), array(0 => 'b', 1 => 'c', 2 => 'd')),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider restWithIndexedElements
+     */
+    public function takingRestOfElementsShouldMaintainIndexAssociations($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->rest();
+
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function restWithIndexedElements()
+    {
+        return array(
+            array(array(1 => 'a', 2 => 'b', 'c' => 'd'), array(2 => 'b', 'c' => 'd')),
+            array(array(0 => 'a', 1 => 'b', '2' => 'c', 3 => 'd'), array(1 => 'b', '2' => 'c', 3 => 'd')),
         );
     }
 

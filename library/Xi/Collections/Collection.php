@@ -58,7 +58,7 @@ interface Collection extends Enumerable
 
     /**
      * Creates a new Collection with the rest of the elements except first.
-     * Does not maintain index associations for numeric keys.
+     * Maintains index associations.
      *
      * @return Collection
      */
