@@ -156,77 +156,77 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 ## Enumerable
 
-`tap`: Calls a provided callback with this object as a parameter  
-`each`: Performs an operation once per key-value pair  
-`reduce`: Uses a given callback to reduce the collection's elements to a single value, starting from a provided initial value  
-`find`: Returns the first value that satisfies a given predicate  
-`exists`: Checks whether the collection has at least one element satisfying a given predicate  
-`forAll`: Checks whether all of the elements in the collection satisfy a given predicate  
-`countAll`: Counts the amount of elements in the collection that satisfy a given predicate
-`first`: Returns the first element in the collection
-`last`: Returns the last element in the collection
+- `tap`: Calls a provided callback with this object as a parameter
+- `each`: Performs an operation once per key-value pair
+- `reduce`: Uses a given callback to reduce the collection's elements to a single value, starting from a provided initial value
+- `find`: Returns the first value that satisfies a given predicate
+- `exists`: Checks whether the collection has at least one element satisfying a given predicate
+- `forAll`: Checks whether all of the elements in the collection satisfy a given predicate
+- `countAll`: Counts the amount of elements in the collection that satisfy a given predicate
+- `first`: Returns the first element in the collection
+- `last`: Returns the last element in the collection
 
 ## Collection
 
 ### Maps
 
-`map`: Applies a callback for each value-key-pair in the Collection and returns a new one with values replaced by the return values from the callback
-`flatMap`: Applies a callback for each key-value-pair in the Collection assuming that the callback result value is iterable and returns a new one with values from those iterable
-`pick`: Get a Collection with a key or member property picked from each value
-`values`: Get a Collection with just the values from this Collection
-`keys`: Get a Collection with the keys from this one as values
-`invoke`: Map this Collection by invoking a method on every value
-`apply`: Creates a new Collection of this type from the output of a given callback that takes this Collection as its argument
+- `map`: Applies a callback for each value-key-pair in the Collection and returns a new one with values replaced by the return values from the callback
+- `flatMap`: Applies a callback for each key-value-pair in the Collection assuming that the callback result value is iterable and returns a new one with values from those iterable
+- `pick`: Get a Collection with a key or member property picked from each value
+- `values`: Get a Collection with just the values from this Collection
+- `keys`: Get a Collection with the keys from this one as values
+- `invoke`: Map this Collection by invoking a method on every value
+- `apply`: Creates a new Collection of this type from the output of a given callback that takes this Collection as its argument
 
 ### Subcollections
 
-`take`: Creates a new Collection with up to $number first elements from this one
-`rest`: Creates a new Collection with the rest of the elements except first
-`filter`: Creates a Collection with the values of this collection that match a given predicate
-`filterNot`: Creates a collection with the values of this collection that do not match a given predicate
-`unique`: Get a Collection with only the unique values from this one
+- `take`: Creates a new Collection with up to $number first elements from this one
+- `rest`: Creates a new Collection with the rest of the elements except first
+- `filter`: Creates a Collection with the values of this collection that match a given predicate
+- `filterNot`: Creates a collection with the values of this collection that do not match a given predicate
+- `unique`: Get a Collection with only the unique values from this one
 
 ### Subdivisions
 
-`partition`: Split a collection into a pair of two collections; one with elements that match a given predicate, the other with the elements that do not.
-`groupBy`: Group the values in the Collection into nested Collections according to a given callback
+- `partition`: Split a collection into a pair of two collections; one with elements that match a given predicate, the other with the elements that do not.
+- `groupBy`: Group the values in the Collection into nested Collections according to a given callback
 
 ### Additions
 
-`concatenate`: Creates a Collection with elements from this and another one
-`union`: Creates a Collection with key-value pairs in the `$other` Collection overriding ones in `$this` Collection
-`flatten`: Flatten nested arrays and Traversables
-`add`: Get a new Collection with given value and optionally key appended
+- `concatenate`: Creates a Collection with elements from this and another one
+- `union`: Creates a Collection with key-value pairs in the `$other` Collection overriding ones in `$this` Collection
+- `flatten`: Flatten nested arrays and Traversables
+- `add`: Get a new Collection with given value and optionally key appended
 
 ### Size information
 
-`isEmpty`: Checks whether the collection is empty
+- `isEmpty`: Checks whether the collection is empty
 
 ### Sorts
 
-`indexBy`: Reindex the Collection using a given callback
-`sortWith`: Get this Collection sorted with a given comparison function
-`sortBy`: Get this Collection sorted with a given metric
+- `indexBy`: Reindex the Collection using a given callback
+- `sortWith`: Get this Collection sorted with a given comparison function
+- `sortBy`: Get this Collection sorted with a given metric
 
 ### Views
 
-`view`: Provides a Collection where transformer operations are applied lazily
+- `view`: Provides a Collection where transformer operations are applied lazily
 
 ### Specific reduces
 
-`min`: Returns the minimum value in the collection
-`max`: Returns the maximum value in the collection
-`sum`: Returns the sum of values in the collection
-`product`: Returns the product of values in the collection
+- `min`: Returns the minimum value in the collection
+- `max`: Returns the maximum value in the collection
+- `sum`: Returns the sum of values in the collection
+- `product`: Returns the product of values in the collection
 
 ## CollectionView
 
-`force`: Coerces this view back into the underlying Collection type  
+- `force`: Coerces this view back into the underlying Collection type
 
 ## Collection implementations
 
-`ArrayCollection`: Basic Collection backed by a plain PHP array.  
-`OuterCollection`: A decorator for a Collection. Can easily be extended to provide more collection operations without locking down the implementation specifics.  
+- `ArrayCollection`: Basic Collection backed by a plain PHP array.
+- `OuterCollection`: A decorator for a Collection. Can easily be extended to provide more collection operations without locking down the implementation specifics.
 
 # Running the unit tests
 
