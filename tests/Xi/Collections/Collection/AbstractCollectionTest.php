@@ -194,6 +194,57 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         });
         $this->assertEquals($expected, array_values($result->toArray()));
     }
+
+    /**
+     * @test
+     * @dataProvider falsinessSet
+     */
+    public function shouldBeAbleToFilterNotForFalsinessByDefault($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->filterNot();
+
+        $this->assertEquals($expected, array_values($result->toArray()));
+    }
+
+    /**
+     * @return array
+     */
+    public function falsinessSet()
+    {
+        return array(
+            array(array(true, false), array(false)),
+            array(array(-1, 0, 1), array(0)),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider filterNotElements
+     */
+    public function shouldBeAbleToFilterNotByCustomCriteria($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->filterNot(
+            function ($value) {
+                return $value === 2;
+            }
+        );
+
+        $this->assertEquals($expected, array_values($result->toArray()));
+    }
+
+    /**
+     * @return array
+     */
+    public function filterNotElements()
+    {
+        return array(
+            array(array(1, 2, 3), array(1, 3)),
+        );
+    }
     
     public function concatSet()
     {
@@ -571,5 +622,225 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array('a' => 'b'), 'c', 'd', array('a' => 'b', 'c' => 'd')),
             array(array(1 => 'a', 3 => 'b'), 2, 'c', array(1 => 'a', 3 => 'b', 2 => 'c')),
         );
+    }
+
+    /**
+     * @test
+     * @dataProvider minimumProvider
+     */
+    public function shouldBeAbleToGetMinimumOfValues($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $this->assertEquals($expected, $collection->min());
+    }
+
+    /**
+     * @return array
+     */
+    public function minimumProvider()
+    {
+        return array(
+            array(array(), null),
+            array(array(1, 2, 3), 1),
+            array(array(5, 2), 2),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider maximumProvider
+     */
+    public function shouldBeAbleToGetMaximumOfValues($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $this->assertEquals($expected, $collection->max());
+    }
+
+    /**
+     * @return array
+     */
+    public function maximumProvider()
+    {
+        return array(
+            array(array(), null),
+            array(array(1, 2, 3), 3),
+            array(array(5, 2), 5),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider sumProvider
+     */
+    public function shouldBeAbleToGetSumOfValues($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $this->assertEquals($expected, $collection->sum());
+    }
+
+    /**
+     * @return array
+     */
+    public function sumProvider()
+    {
+        return array(
+            array(array(), null),
+            array(array(0), 0),
+            array(array(1, 2), 3),
+            array(array(2, 4, 6), 12),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider productProvider
+     */
+    public function shouldBeAbleToGetProductOfValues($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $this->assertEquals($expected, $collection->product());
+    }
+
+    /**
+     * @return array
+     */
+    public function productProvider()
+    {
+        return array(
+            array(array(), null),
+            array(array(0), 0),
+            array(array(1, 2), 2),
+            array(array(2, 3, 5), 30),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider restElements
+     */
+    public function shouldBeAbleToTakeRestOfTheElementsExceptFirst($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->rest();
+
+        $this->assertEquals($expected, array_values($result->toArray()));
+    }
+
+    /**
+     * @return array
+     */
+    public function restElements()
+    {
+        return array(
+            array(array(), array()),
+            array(array('a'), array()),
+            array(array('a', 'b', 'c'), array('b', 'c')),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider restWithIndexedElements
+     */
+    public function takingRestOfElementsShouldMaintainIndexAssociations($elements, $expected)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->rest();
+
+        $this->assertEquals($expected, $result->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function restWithIndexedElements()
+    {
+        return array(
+            array(array(1 => 'a', 2 => 'b', 'c' => 'd'), array(2 => 'b', 'c' => 'd')),
+            array(array(0 => 'a', 1 => 'b', '2' => 'c', 3 => 'd'), array(1 => 'b', '2' => 'c', 3 => 'd')),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider partitionElements
+     */
+    public function shouldBeAbleToPartitionElements($elements, $first, $second)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->partition(
+            function ($value) {
+                return $value < 3;
+            }
+        );
+
+        $this->assertEquals($first, array_values($result->first()->toArray()));
+        $this->assertEquals($second, array_values($result->last()->toArray()));
+    }
+
+    /**
+     * @return array
+     */
+    public function partitionElements()
+    {
+        return array(
+            array(array(), array(), array()),
+            array(array(1, 2, 3), array(1, 2), array(3)),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider partitionWithIndexedElements
+     */
+    public function partitionShouldMaintainIndexAssociations($elements, $first, $second)
+    {
+        $collection = $this->getCollection($elements);
+
+        $result = $collection->partition(
+            function ($value) {
+                return $value < 3;
+            }
+        );
+
+        $this->assertEquals($first, $result->first()->toArray());
+        $this->assertEquals($second, $result->last()->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function partitionWithIndexedElements()
+    {
+        return array(
+            array(array(2 => 2, 3 => 3), array(2 => 2), array(3 => 3)),
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToCheckForEmpty()
+    {
+        $collection = $this->getCollection();
+
+        $this->assertTrue($collection->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToCheckForNotEmpty()
+    {
+        $collection = $this->getCollection(array('a'));
+
+        $this->assertFalse($collection->isEmpty());
     }
 }

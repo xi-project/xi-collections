@@ -12,7 +12,7 @@ Xi Collections aims to rectify the situation and inject your workflow with a hea
 
 - _Object immutability._ The collections' methods do not manipulate the collections' contents, but return a new collection instead.
 
-- _API chainability._ No operation will return void and leave you in the dark; you'll always be able to continue where you left off.
+- _API chainability._ Most operations will return a new collection except specific reduces and size informations.
 
 - _Embracing functional programming._ The Collections API is chosen to facilitate a functional workflow. Existing FP-compatible functionality in PHP is prioritized for inclusion to the API, and other important concepts that are missing are stolen from other languages and libraries.
 
@@ -156,50 +156,98 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 ## Enumerable
 
-`tap`: Calls a provided callback with this object as a parameter  
-`each`: Performs an operation once per key-value pair  
-`reduce`: Uses a given callback to reduce the collection's elements to a single value, starting from a provided initial value  
-`find`: Returns the first value that satisfies a given predicate  
-`exists`: Checks whether the collection has at least one element satisfying a given predicate  
-`forAll`: Checks whether all of the elements in the collection satisfy a given predicate  
-`countAll`: Counts the amount of elements in the collection that satisfy a given predicate  
+### Element retrieval
+
+- `first`: Returns the first element in the collection
+- `last`: Returns the last element in the collection
+- `find`: Returns the first value that satisfies a given predicate
+
+### Element conditions
+
+- `exists`: Checks whether the collection has at least one element satisfying a given predicate
+- `forAll`: Checks whether all of the elements in the collection satisfy a given predicate
+- `countAll`: Counts the amount of elements in the collection that satisfy a given predicate
+
+### Size information
+
+- `count`: Counts the amount of elements in the collection
+
+### Reduces
+
+- `reduce`: Uses a given callback to reduce the collection's elements to a single value, starting from a provided initial value
+
+### Invocations
+
+- `tap`: Calls a provided callback with this object as a parameter
+- `each`: Performs an operation once per key-value pair
 
 ## Collection
 
-`view`: Provides a Collection where transformer operations are applied lazily  
-`apply`: Creates a new Collection of this type from the output of a given callback that takes this Collection as its argument  
-`take`: Creates a new Collection with up to $number first elements from this one  
-`map`: Applies a callback for each value-key-pair in the Collection and returns a new one with values replaced by the return values from the callback  
-`filter`: Creates a Collection with the values of this collection that match a given predicate  
-`concatenate`: Creates a Collection with elements from this and another one  
-`union`: Creates a Collection with key-value pairs in the `$other` Collection overriding ones in `$this` Collection  
-`values`: Get a Collection with just the values from this Collection  
-`keys`: Get a Collection with the keys from this one as values  
-`indexBy`: Reindex the Collection using a given callback  
-`groupBy`: Group the values in the Collection into nested Collections according to a given callback  
-`pick`: Get a Collection with a key or member property picked from each value  
-`invoke`: Map this Collection by invoking a method on every value  
-`flatten`: Flatten nested arrays and Traversables  
-`unique`: Get a Collection with only the unique values from this one  
-`sortWith`: Get this Collection sorted with a given comparison function  
-`sortBy`: Get this Collection sorted with a given metric  
+### Maps
+
+- `map`: Applies a callback for each value-key-pair in the Collection and returns a new one with values replaced by the return values from the callback
+- `flatMap`: Applies a callback for each key-value-pair in the Collection assuming that the callback result value is iterable and returns a new one with values from those iterable
+- `pick`: Get a Collection with a key or member property picked from each value
+- `values`: Get a Collection with just the values from this Collection
+- `keys`: Get a Collection with the keys from this one as values
+- `invoke`: Map this Collection by invoking a method on every value
+- `apply`: Creates a new Collection of this type from the output of a given callback that takes this Collection as its argument
+
+### Subcollections
+
+- `take`: Creates a new Collection with up to $number first elements from this one
+- `rest`: Creates a new Collection with the rest of the elements except first
+- `filter`: Creates a Collection with the values of this collection that match a given predicate
+- `filterNot`: Creates a collection with the values of this collection that do not match a given predicate
+- `unique`: Get a Collection with only the unique values from this one
+
+### Subdivisions
+
+- `partition`: Split a collection into a pair of two collections; one with elements that match a given predicate, the other with the elements that do not.
+- `groupBy`: Group the values in the Collection into nested Collections according to a given callback
+
+### Additions
+
+- `concatenate`: Creates a Collection with elements from this and another one
+- `union`: Creates a Collection with key-value pairs in the `$other` Collection overriding ones in `$this` Collection
+- `flatten`: Flatten nested arrays and Traversables
+- `add`: Get a new Collection with given value and optionally key appended
+
+### Size information
+
+- `isEmpty`: Checks whether the collection is empty
+
+### Sorts
+
+- `indexBy`: Reindex the Collection using a given callback
+- `sortWith`: Get this Collection sorted with a given comparison function
+- `sortBy`: Get this Collection sorted with a given metric
+
+### Views
+
+- `view`: Provides a Collection where transformer operations are applied lazily
+
+### Specific reduces
+
+- `min`: Returns the minimum value in the collection
+- `max`: Returns the maximum value in the collection
+- `sum`: Returns the sum of values in the collection
+- `product`: Returns the product of values in the collection
 
 ## CollectionView
 
-`force`: Coerces this view back into the underlying Collection type  
+- `force`: Coerces this view back into the underlying Collection type
 
 ## Collection implementations
 
-`ArrayCollection`: Basic Collection backed by a plain PHP array.  
-`OuterCollection`: A decorator for a Collection. Can easily be extended to provide more collection operations without locking down the implementation specifics.  
+- `ArrayCollection`: Basic Collection backed by a plain PHP array.
+- `OuterCollection`: A decorator for a Collection. Can easily be extended to provide more collection operations without locking down the implementation specifics.
 
 # Running the unit tests
 
-	cd tests
-	phpunit --bootstrap bootstrap.php Xi
+	phpunit -c tests
 
 # TODO
 
 - Collection implementations backed by SPL (SplFixedArray, SplDoublyLinkedList?)
-- Once PHP 5.4 is feasible to use, implementations can be significantly simplified using traits
-
+- Use traits?

@@ -49,9 +49,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
     public function filter($predicate = null)
     {
         if (null === $predicate) {
-            $predicate = function($value) {
-                return !empty($value);
-            };
+            $predicate = $this->notEmptyFilter();
         }
 
         $results = array();
@@ -61,6 +59,44 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
             }
         }
         return static::create($results);
+    }
+
+    /**
+     * @return callable
+     */
+    private function notEmptyFilter()
+    {
+        return function ($value) {
+            return !empty($value);
+        };
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterNot($predicate = null)
+    {
+        if (null === $predicate) {
+            $predicate = $this->notEmptyFilter();
+        }
+
+        $results = array();
+
+        foreach ($this as $key => $value) {
+            if (!$predicate($value, $key)) {
+                $results[$key] = $value;
+            }
+        }
+
+        return static::create($results);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function partition($predicate)
+    {
+        return static::create(array($this->filter($predicate), $this->filterNot($predicate)));
     }
 
     public function concatenate($other)
@@ -161,5 +197,96 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
         }
 
         return static::create($results);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function min()
+    {
+        $min = null;
+
+        foreach ($this as $value) {
+            if ($min === null || $value < $min) {
+                $min = $value;
+            }
+        }
+
+        return $min;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function max()
+    {
+        $max = null;
+
+        foreach ($this as $value) {
+            if ($max === null || $value > $max) {
+                $max = $value;
+            }
+        }
+
+        return $max;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sum()
+    {
+        $sum = null;
+
+        foreach ($this as $value) {
+            $sum += $value;
+        }
+
+        return $sum;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function product()
+    {
+        $product = null;
+
+        foreach ($this as $value) {
+            if ($product === null) {
+                $product = $value;
+            } else {
+                $product *= $value;
+            }
+        }
+
+        return $product;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rest()
+    {
+        $results = array();
+        $first = true;
+
+        foreach ($this as $key => $value) {
+            if (!$first) {
+                $results[$key] = $value;
+            }
+
+            $first = false;
+        }
+
+        return static::create($results);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmpty()
+    {
+        return $this->count() === 0;
     }
 }

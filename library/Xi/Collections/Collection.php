@@ -57,6 +57,14 @@ interface Collection extends Enumerable
     public function take($number);
 
     /**
+     * Creates a new Collection with the rest of the elements except first.
+     * Maintains index associations.
+     *
+     * @return Collection
+     */
+    public function rest();
+
+    /**
      * Applies a callback for each value-key-pair in the Collection and returns
      * a new one with values replaced by the return values from the callback.
      * Maintains index associations.
@@ -75,6 +83,26 @@ interface Collection extends Enumerable
      * @return Collection
      */
     public function filter($predicate = null);
+
+    /**
+     * Creates a collection with the values of this collection that do not match
+     * a given predicate. If the predicate is omitted, the values will simply be
+     * checked for falsiness. Maintains index associations.
+     *
+     * @param callable($value, $key) $predicate
+     * @return mixed
+     */
+    public function filterNot($predicate = null);
+
+    /**
+     * Split a collection into a pair of two collections; one with elements that
+     * match a given predicate, the other with the elements that do not.
+     * Maintains index associations.
+     *
+     * @param callable($value, $key) $predicate
+     * @return Collection
+     */
+    public function partition($predicate);
 
     /**
      * Creates a Collection with elements from this and another one. Does not
@@ -191,4 +219,39 @@ interface Collection extends Enumerable
      * @return Collection
      */
     public function add($value, $key = null);
+
+    /**
+     * Returns the minimum value in the collection.
+     *
+     * @return mixed|null
+     */
+    public function min();
+
+    /**
+     * Returns the maximum value in the collection.
+     *
+     * @return mixed|null
+     */
+    public function max();
+
+    /**
+     * Returns the sum of values in the collection.
+     *
+     * @return mixed|null
+     */
+    public function sum();
+
+    /**
+     * Returns the product of values in the collection.
+     *
+     * @return mixed|null
+     */
+    public function product();
+
+    /**
+     * Checks whether the collection is empty.
+     *
+     * @return boolean
+     */
+    public function isEmpty();
 }

@@ -67,6 +67,14 @@ class OuterCollection extends OuterEnumerable implements Collection
         return static::create($this->collection->take($number));
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function rest()
+    {
+        return static::create($this->collection->rest());
+    }
+
     public function map($callback)
     {
         return static::create($this->collection->map($callback));
@@ -75,6 +83,22 @@ class OuterCollection extends OuterEnumerable implements Collection
     public function filter($predicate = null)
     {
         return static::create($this->collection->filter($predicate));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterNot($predicate = null)
+    {
+        return static::create($this->collection->filterNot($predicate));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function partition($predicate)
+    {
+        return static::create($this->collection->partition($predicate));
     }
 
     public function concatenate($other)
@@ -148,5 +172,45 @@ class OuterCollection extends OuterEnumerable implements Collection
     public function add($value, $key = null)
     {
         return static::create($this->collection->add($value, $key));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function min()
+    {
+        return $this->collection->min();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function max()
+    {
+        return $this->collection->max();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sum()
+    {
+        return $this->collection->sum();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function product()
+    {
+        return $this->collection->product();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmpty()
+    {
+        return $this->collection->isEmpty();
     }
 }

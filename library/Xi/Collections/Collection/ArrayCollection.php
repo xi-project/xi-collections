@@ -49,6 +49,14 @@ class ArrayCollection extends ArrayEnumerable implements Collection
         return static::create($result);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function rest()
+    {
+        return static::create(array_slice($this->_elements, 1, null, true));
+    }
+
     public function filter($callback = null)
     {
         // Passing null to array_filter results in error, but omitting the second argument is ok.
@@ -57,6 +65,36 @@ class ArrayCollection extends ArrayEnumerable implements Collection
             // array_filter only provides values; adding keys manually
             : array_filter($this->_elements, $this->addKeyArgument($callback));
         return static::create($result);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterNot($predicate = null)
+    {
+        if (null === $predicate) {
+            $predicate = function ($value) {
+                return !empty($value);
+            };
+        }
+
+        $results = array();
+
+        foreach ($this as $key => $value) {
+            if (!$predicate($value, $key)) {
+                $results[$key] = $value;
+            }
+        }
+
+        return static::create($results);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function partition($predicate)
+    {
+        return static::create(array($this->filter($predicate), $this->filterNot($predicate)));
     }
 
     public function map($callback)
@@ -191,5 +229,53 @@ class ArrayCollection extends ArrayEnumerable implements Collection
         }
 
         return static::create($results);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function min()
+    {
+        return $this->applyOrNull('min');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function max()
+    {
+        return $this->applyOrNull('max');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sum()
+    {
+        return $this->applyOrNull('array_sum');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function product()
+    {
+        return $this->applyOrNull('array_product');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function applyOrNull($callback)
+    {
+        return !empty($this->_elements) ? $callback($this->_elements) : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmpty()
+    {
+        return $this->count() === 0;
     }
 }
