@@ -1,9 +1,11 @@
 <?php
+
 namespace Xi\Collections\Collection;
 
-use Xi\Collections\Collection,
-    Xi\Collections\Util\Functions,
-    Xi\Collections\Enumerable\ArrayEnumerable;
+use Xi\Collections\Collection;
+use Xi\Collections\Util\Functions;
+use Xi\Collections\Enumerable\ArrayEnumerable;
+use UnderflowException;
 
 /**
  * Implements the Collection operations with native array functions wherever
@@ -236,7 +238,13 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     public function min()
     {
-        return $this->applyOrNull('min');
+        if ($this->isEmpty()) {
+            throw new UnderflowException(
+                'Can not get a minimum value on an empty collection.'
+            );
+        }
+
+        return min($this->_elements);
     }
 
     /**
@@ -244,7 +252,13 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     public function max()
     {
-        return $this->applyOrNull('max');
+        if ($this->isEmpty()) {
+            throw new UnderflowException(
+                'Can not get a maximum value on an empty collection.'
+            );
+        }
+
+        return max($this->_elements);
     }
 
     /**
@@ -252,7 +266,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     public function sum()
     {
-        return $this->applyOrNull('array_sum');
+        return $this->isEmpty() ? 0 : array_sum($this->_elements);
     }
 
     /**
@@ -260,15 +274,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     public function product()
     {
-        return $this->applyOrNull('array_product');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    private function applyOrNull($callback)
-    {
-        return !empty($this->_elements) ? $callback($this->_elements) : null;
+        return $this->isEmpty() ? 1 : array_product($this->_elements);
     }
 
     /**

@@ -641,10 +641,24 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
     public function minimumProvider()
     {
         return array(
-            array(array(), null),
             array(array(1, 2, 3), 1),
             array(array(5, 2), 2),
         );
+    }
+
+    /**
+     * @test
+     */
+    public function minimumOfValuesOnAnEmptyCollectionShouldThrowAnException()
+    {
+        $collection = $this->getCollection();
+
+        $this->setExpectedException(
+            'UnderflowException',
+            'Can not get a minimum value on an empty collection.'
+        );
+
+        $collection->min();
     }
 
     /**
@@ -664,10 +678,24 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
     public function maximumProvider()
     {
         return array(
-            array(array(), null),
             array(array(1, 2, 3), 3),
             array(array(5, 2), 5),
         );
+    }
+
+    /**
+     * @test
+     */
+    public function maximumOfValuesOnAnEmptyCollectionShouldThrowAnException()
+    {
+        $collection = $this->getCollection();
+
+        $this->setExpectedException(
+            'UnderflowException',
+            'Can not get a maximum value on an empty collection.'
+        );
+
+        $collection->max();
     }
 
     /**
@@ -687,7 +715,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
     public function sumProvider()
     {
         return array(
-            array(array(), null),
+            array(array(), 0),
             array(array(0), 0),
             array(array(1, 2), 3),
             array(array(2, 4, 6), 12),
@@ -711,7 +739,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
     public function productProvider()
     {
         return array(
-            array(array(), null),
+            array(array(), 1),
             array(array(0), 0),
             array(array(1, 2), 2),
             array(array(2, 3, 5), 30),
