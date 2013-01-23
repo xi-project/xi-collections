@@ -156,15 +156,30 @@ Below is a short description of the APIs provided by Enumerable and Collection. 
 
 ## Enumerable
 
-- `tap`: Calls a provided callback with this object as a parameter
-- `each`: Performs an operation once per key-value pair
-- `reduce`: Uses a given callback to reduce the collection's elements to a single value, starting from a provided initial value
+### Element retrieval
+
+- `first`: Returns the first element in the collection
+- `last`: Returns the last element in the collection
 - `find`: Returns the first value that satisfies a given predicate
+
+### Element conditions
+
 - `exists`: Checks whether the collection has at least one element satisfying a given predicate
 - `forAll`: Checks whether all of the elements in the collection satisfy a given predicate
 - `countAll`: Counts the amount of elements in the collection that satisfy a given predicate
-- `first`: Returns the first element in the collection
-- `last`: Returns the last element in the collection
+
+### Size information
+
+- `count`: Counts the amount of elements in the collection
+
+### Reduces
+
+- `reduce`: Uses a given callback to reduce the collection's elements to a single value, starting from a provided initial value
+
+### Invocations
+
+- `tap`: Calls a provided callback with this object as a parameter
+- `each`: Performs an operation once per key-value pair
 
 ## Collection
 
