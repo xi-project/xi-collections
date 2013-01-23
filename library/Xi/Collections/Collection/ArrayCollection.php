@@ -46,7 +46,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     {
         $result = array();
         if ($number > 0) {
-            $result = array_slice($this->_elements, 0, $number, true);
+            $result = array_slice($this->elements, 0, $number, true);
         }
         return static::create($result);
     }
@@ -56,16 +56,16 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     public function rest()
     {
-        return static::create(array_slice($this->_elements, 1, null, true));
+        return static::create(array_slice($this->elements, 1, null, true));
     }
 
     public function filter($callback = null)
     {
         // Passing null to array_filter results in error, but omitting the second argument is ok.
         $result = (null === $callback)
-            ? array_filter($this->_elements)
+            ? array_filter($this->elements)
             // array_filter only provides values; adding keys manually
-            : array_filter($this->_elements, $this->addKeyArgument($callback));
+            : array_filter($this->elements, $this->addKeyArgument($callback));
         return static::create($result);
     }
 
@@ -103,7 +103,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     {
         // Providing keys to the callback manually, because index associations
         // are not maintained when array_map is called with multiple arrays.
-        return static::create(array_map($this->addKeyArgument($callback), $this->_elements));
+        return static::create(array_map($this->addKeyArgument($callback), $this->elements));
     }
     
     /**
@@ -122,7 +122,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     private function addKeyArgument($callback)
     {
-        $values = $this->_elements;
+        $values = $this->elements;
         return function($value) use($callback, $values) {
             list($key) = each($values);
             return $callback($value, $key);
@@ -131,24 +131,24 @@ class ArrayCollection extends ArrayEnumerable implements Collection
 
     public function concatenate($other)
     {
-        $left = array_values($this->_elements);
+        $left = array_values($this->elements);
         $right = array_values($other->toArray());
         return static::create(array_merge($left, $right));
     }
 
     public function union($other)
     {
-        return static::create($other->toArray() + $this->_elements);
+        return static::create($other->toArray() + $this->elements);
     }
 
     public function values()
     {
-        return static::create(array_values($this->_elements));
+        return static::create(array_values($this->elements));
     }
 
     public function keys()
     {
-        return static::create(array_keys($this->_elements));
+        return static::create(array_keys($this->elements));
     }
 
     public function flatMap($callback)
@@ -185,7 +185,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     {
         if (false === $strict) {
             // array_unique can't check for strict uniqueness
-            return static::create(array_unique($this->_elements, SORT_REGULAR));
+            return static::create(array_unique($this->elements, SORT_REGULAR));
         }
         return $this->apply(Functions::unique($strict));
     }
@@ -205,7 +205,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     public function reverse()
     {
-        return static::create(array_reverse($this->_elements));
+        return static::create(array_reverse($this->elements));
     }
 
     /**
@@ -214,7 +214,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     public function merge(Collection $other)
     {
-        return static::create(array_merge($this->_elements, $other->toArray()));
+        return static::create(array_merge($this->elements, $other->toArray()));
     }
 
     /**
@@ -244,7 +244,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
             );
         }
 
-        return min($this->_elements);
+        return min($this->elements);
     }
 
     /**
@@ -258,7 +258,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
             );
         }
 
-        return max($this->_elements);
+        return max($this->elements);
     }
 
     /**
@@ -266,7 +266,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     public function sum()
     {
-        return $this->isEmpty() ? 0 : array_sum($this->_elements);
+        return $this->isEmpty() ? 0 : array_sum($this->elements);
     }
 
     /**
@@ -274,7 +274,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
      */
     public function product()
     {
-        return $this->isEmpty() ? 1 : array_product($this->_elements);
+        return $this->isEmpty() ? 1 : array_product($this->elements);
     }
 
     /**

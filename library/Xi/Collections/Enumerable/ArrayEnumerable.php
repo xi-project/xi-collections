@@ -13,36 +13,36 @@ class ArrayEnumerable implements Enumerable
     /**
      * @var array
      */
-    protected $_elements;
+    protected $elements;
 
     /**
      * @param array $elements
      */
     public function __construct($elements)
     {
-        $this->_elements = $elements;
+        $this->elements = $elements;
     }
 
     public function getIterator()
     {
-        return new \ArrayIterator($this->_elements);
+        return new \ArrayIterator($this->elements);
     }
 
     public function toArray()
     {
-        return $this->_elements;
+        return $this->elements;
     }
 
     public function each($callback, $userdata = null)
     {
-        array_walk($this->_elements, $callback, $userdata);
+        array_walk($this->elements, $callback, $userdata);
         return $this;
     }
 
     public function reduce($callback, $initial = null)
     {
         $result = $initial;
-        foreach ($this->_elements as $key => $value) {
+        foreach ($this->elements as $key => $value) {
             $result = $callback($result, $value, $key);
         }
         return $result;
@@ -56,7 +56,7 @@ class ArrayEnumerable implements Enumerable
 
     public function exists($callback)
     {
-        foreach ($this->_elements as $value) {
+        foreach ($this->elements as $value) {
             if ($callback($value)) {
                 return true;
             }
@@ -66,7 +66,7 @@ class ArrayEnumerable implements Enumerable
 
     public function forAll($callback)
     {
-        foreach ($this->_elements as $value) {
+        foreach ($this->elements as $value) {
             if (!$callback($value)) {
                 return false;
             }
@@ -76,7 +76,7 @@ class ArrayEnumerable implements Enumerable
 
     public function find($callback)
     {
-        foreach ($this->_elements as $value) {
+        foreach ($this->elements as $value) {
             if ($callback($value)) {
                 return $value;
             }
@@ -86,12 +86,12 @@ class ArrayEnumerable implements Enumerable
 
     public function first()
     {
-        return reset($this->_elements);
+        return reset($this->elements);
     }
 
     public function last()
     {
-        return end($this->_elements);
+        return end($this->elements);
     }
 
     public function countAll($predicate)
@@ -107,6 +107,6 @@ class ArrayEnumerable implements Enumerable
 
     public function count()
     {
-        return count($this->_elements);
+        return count($this->elements);
     }
 }
