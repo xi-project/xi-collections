@@ -1,9 +1,11 @@
 <?php
+
 namespace Xi\Collections\Collection;
 
-use Xi\Collections\Collection,
-    Xi\Collections\Util\Functions,
-    Xi\Collections\Enumerable\AbstractEnumerable;
+use Xi\Collections\Collection;
+use Xi\Collections\Util\Functions;
+use Xi\Collections\Enumerable\AbstractEnumerable;
+use UnderflowException;
 
 /**
  * Provides a trivial implementation of a Collection
@@ -204,6 +206,12 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
      */
     public function min()
     {
+        if ($this->isEmpty()) {
+            throw new UnderflowException(
+                'Can not get a minimum value on an empty collection.'
+            );
+        }
+
         $min = null;
 
         foreach ($this as $value) {
@@ -220,6 +228,12 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
      */
     public function max()
     {
+        if ($this->isEmpty()) {
+            throw new UnderflowException(
+                'Can not get a maximum value on an empty collection.'
+            );
+        }
+
         $max = null;
 
         foreach ($this as $value) {
@@ -236,7 +250,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
      */
     public function sum()
     {
-        $sum = null;
+        $sum = 0;
 
         foreach ($this as $value) {
             $sum += $value;
@@ -250,14 +264,10 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
      */
     public function product()
     {
-        $product = null;
+        $product = 1;
 
         foreach ($this as $value) {
-            if ($product === null) {
-                $product = $value;
-            } else {
-                $product *= $value;
-            }
+            $product *= $value;
         }
 
         return $product;

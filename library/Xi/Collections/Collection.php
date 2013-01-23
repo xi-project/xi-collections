@@ -1,5 +1,10 @@
 <?php
+
 namespace Xi\Collections;
+
+use Traversable;
+use Closure;
+use UnderflowException;
 
 /**
  * Extends the Enumerable collection operations to a superset that includes
@@ -223,28 +228,32 @@ interface Collection extends Enumerable
     /**
      * Returns the minimum value in the collection.
      *
-     * @return mixed|null
+     * @return mixed
+     * @throws UnderflowException If the collection is empty.
      */
     public function min();
 
     /**
      * Returns the maximum value in the collection.
      *
-     * @return mixed|null
+     * @return mixed
+     * @throws UnderflowException If the collection is empty.
      */
     public function max();
 
     /**
-     * Returns the sum of values in the collection.
+     * Returns the sum of values in the collection. The sum of an empty
+     * collection is 0.
      *
-     * @return mixed|null
+     * @return mixed
      */
     public function sum();
 
     /**
-     * Returns the product of values in the collection.
+     * Returns the product of values in the collection. The product of an empty
+     * collection is 1.
      *
-     * @return mixed|null
+     * @return mixed
      */
     public function product();
 
