@@ -123,7 +123,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     private function addKeyArgument($callback)
     {
         $values = $this->elements;
-        return function($value) use($callback, $values) {
+        return function($value) use($callback, &$values) {
             list($key) = each($values);
             return $callback($value, $key);
         };

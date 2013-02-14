@@ -145,6 +145,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
     {
         return array(
             array(array('foo' => null), array('foo' => 'foo')),
+            array(array('min' => 1, 'max' => 3), array('min' => 'min', 'max' => 'max')),
         );
     }
     
