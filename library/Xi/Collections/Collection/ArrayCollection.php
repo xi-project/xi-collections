@@ -16,7 +16,7 @@ use UnderflowException;
 class ArrayCollection extends ArrayEnumerable implements Collection
 {
     /**
-     * @param array|\Traversable $elements
+     * @param  array|\Traversable $elements
      * @return Collection
      */
     public static function create($elements)
@@ -24,9 +24,10 @@ class ArrayCollection extends ArrayEnumerable implements Collection
         if ($elements instanceof \Traversable) {
             $elements = iterator_to_array($elements, true);
         }
+
         return new static((array) $elements);
     }
-    
+
     public static function getCreator()
     {
         return Functions::getCallback(get_called_class(), 'create');
@@ -36,7 +37,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     {
         return new SimpleCollectionView($this, static::getCreator());
     }
-    
+
     public function apply($callback)
     {
         return static::create($callback($this));
@@ -48,6 +49,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
         if ($number > 0) {
             $result = array_slice($this->elements, 0, $number, true);
         }
+
         return static::create($result);
     }
 
@@ -66,6 +68,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
             ? array_filter($this->elements)
             // array_filter only provides values; adding keys manually
             : array_filter($this->elements, $this->addKeyArgument($callback));
+
         return static::create($result);
     }
 
@@ -105,26 +108,28 @@ class ArrayCollection extends ArrayEnumerable implements Collection
         // are not maintained when array_map is called with multiple arrays.
         return static::create(array_map($this->addKeyArgument($callback), $this->elements));
     }
-    
+
     /**
      * Wraps a callback that accepts a value-key pair as its arguments into a
      * callback that only accepts the value and retrieves a key from the
      * elements manually for each call. Can be used when a function that accepts
      * a callback and iterates through the elements will only provide values to
      * the passed callback.
-     * 
+     *
      * TODO: Perform analysis on whether it would be altogether more sensible to
      * implement filter and map manually, if providing a consistent interface
      * while taking advantage of PHP functions means resorting tricks like this.
-     * 
-     * @param callback($value, $key) $callback
-     * @return callback($value)
+     *
+     * @param  callable($value, $key) $callback
+     * @return callable($value)
      */
     private function addKeyArgument($callback)
     {
         $values = $this->elements;
-        return function($value) use($callback, &$values) {
+
+        return function($value) use ($callback, &$values) {
             list($key) = each($values);
+
             return $callback($value, $key);
         };
     }
@@ -133,6 +138,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     {
         $left = array_values($this->elements);
         $right = array_values($other->toArray());
+
         return static::create(array_merge($left, $right));
     }
 
@@ -170,23 +176,24 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     {
         return $this->map(Functions::pick($key));
     }
-    
+
     public function invoke($method)
     {
         return $this->map(Functions::invoke($method));
     }
-    
+
     public function flatten()
     {
         return $this->apply(Functions::flatten());
     }
-    
+
     public function unique($strict = true)
     {
         if (false === $strict) {
             // array_unique can't check for strict uniqueness
             return static::create(array_unique($this->elements, SORT_REGULAR));
         }
+
         return $this->apply(Functions::unique($strict));
     }
 
@@ -209,7 +216,7 @@ class ArrayCollection extends ArrayEnumerable implements Collection
     }
 
     /**
-     * @param Collection $other
+     * @param  Collection      $other
      * @return ArrayCollection
      */
     public function merge(Collection $other)

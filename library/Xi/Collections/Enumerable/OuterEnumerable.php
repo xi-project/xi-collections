@@ -39,12 +39,14 @@ class OuterEnumerable implements Enumerable
     public function tap($callback)
     {
         $callback($this);
+
         return $this;
     }
 
     public function each($callback, $userdata = null)
     {
         $this->enumerable->each($callback, $userdata);
+
         return $this;
     }
 

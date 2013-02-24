@@ -10,7 +10,7 @@ use UnderflowException;
  * Extends the Enumerable collection operations to a superset that includes
  * operations that yield other collections in return. This means Collections
  * can be transformed into other Collections.
- * 
+ *
  * As a principle, Collection operations should be invariant on the Collection's
  * type - ie. methods should return an instance of the type of Collection that
  * the method call was made on. This principle should only be rejected case by
@@ -23,15 +23,15 @@ interface Collection extends Enumerable
      * advantage of late static binding, ie. this method should return an
      * instance of the class that is the receiver of the static method call.
      *
-     * @param array|Traversable $elements
+     * @param  array|Traversable $elements
      * @return Collection
      */
     public static function create($elements);
-    
+
     /**
      * Get a callback that references the static create method for the class
      * that is the receiver of the static method call.
-     * 
+     *
      * @return Closure
      */
     public static function getCreator();
@@ -47,7 +47,7 @@ interface Collection extends Enumerable
      * Creates a new Collection of this type from the output of a given callback
      * that takes this Collection as its argument.
      *
-     * @param callback($collection) $callback
+     * @param  callable($collection) $callback
      * @return Collection
      */
     public function apply($callback);
@@ -55,8 +55,8 @@ interface Collection extends Enumerable
     /**
      * Creates a new Collection with up to $number first elements from this one.
      * Maintains index associations.
-     * 
-     * @param int $number
+     *
+     * @param  int        $number
      * @return Collection
      */
     public function take($number);
@@ -73,8 +73,8 @@ interface Collection extends Enumerable
      * Applies a callback for each value-key-pair in the Collection and returns
      * a new one with values replaced by the return values from the callback.
      * Maintains index associations.
-     * 
-     * @param callback($value, $key) $callback
+     *
+     * @param  callable($value, $key) $callback
      * @return Collection
      */
     public function map($callback);
@@ -84,7 +84,7 @@ interface Collection extends Enumerable
      * given predicate. If the predicate is omitted, the values will simply be
      * checked for truthiness. Maintains index associations.
      *
-     * @param callback($value, $key) $predicate optional
+     * @param  callable($value, $key) $predicate optional
      * @return Collection
      */
     public function filter($predicate = null);
@@ -113,7 +113,7 @@ interface Collection extends Enumerable
      * Creates a Collection with elements from this and another one. Does not
      * maintain index associations.
      *
-     * @param Collection $other
+     * @param  Collection $other
      * @return Collection
      */
     public function concatenate($other);
@@ -122,7 +122,7 @@ interface Collection extends Enumerable
      * Creates a Collection with key-value pairs in the $other Collection
      * overriding ones in $this Collection. Maintains index associations.
      *
-     * @param Collection $other
+     * @param  Collection $other
      * @return Collection
      */
     public function union($other);
@@ -146,7 +146,7 @@ interface Collection extends Enumerable
      * that the callback result value is iterable and returns a new one with
      * values from those iterables. Does not maintain index associations.
      *
-     * @param callback($value, $key) $callback
+     * @param  callable($value, $key) $callback
      * @return Collection
      */
     public function flatMap($callback);
@@ -154,7 +154,7 @@ interface Collection extends Enumerable
     /**
      * Reindex the Collection using a given callback
      *
-     * @param callback($value, $key) $callback
+     * @param  callable($value, $key) $callback
      * @return Collection
      */
     public function indexBy($callback);
@@ -162,8 +162,8 @@ interface Collection extends Enumerable
     /**
      * Group the values in the Collection into nested Collections according to
      * a given callback
-     * 
-     * @param callback($value, $key) $callback
+     *
+     * @param  callable($value, $key) $callback
      * @return Collection
      */
     public function groupBy($callback);
@@ -171,30 +171,30 @@ interface Collection extends Enumerable
     /**
      * Get a Collection with a key or member property picked from each value
      *
-     * @param scalar $key
+     * @param  scalar     $key
      * @return Collection
      */
     public function pick($key);
-    
+
     /**
      * Map this Collection by invoking a method on every value
      *
-     * @param string $method
+     * @param  string     $method
      * @return Collection
      */
     public function invoke($method);
-    
+
     /**
      * Flatten nested arrays and Traversables
      *
      * @return Collection
      */
     public function flatten();
-    
+
     /**
      * Get a Collection with only the unique values from this one.
      *
-     * @param boolean $strict optional, defaults to true
+     * @param  boolean    $strict optional, defaults to true
      * @return Collection
      */
     public function unique($strict = true);
@@ -202,7 +202,7 @@ interface Collection extends Enumerable
     /**
      * Get a new Collection sorted with a given comparison function
      *
-     * @param callback($a, $b) $comparator
+     * @param  callable($a, $b) $comparator
      * @return Collection
      */
     public function sortWith($comparator);
@@ -210,7 +210,7 @@ interface Collection extends Enumerable
     /**
      * Get a new Collection sorted with a given metric
      *
-     * @param callback($value, $key) $metric
+     * @param  callable($value, $key) $metric
      * @return Collection
      */
     public function sortBy($metric);

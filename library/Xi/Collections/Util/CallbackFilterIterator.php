@@ -1,10 +1,11 @@
 <?php
+
 namespace Xi\Collections\Util;
 
 class CallbackFilterIterator extends \FilterIterator
 {
     /**
-     * @var callback($value, $key)
+     * @var callable($value, $key)
      */
     protected $callback;
 
@@ -17,6 +18,7 @@ class CallbackFilterIterator extends \FilterIterator
     public function accept()
     {
         $callback = $this->callback;
+
         return $callback($this->current(), $this->key());
     }
 }

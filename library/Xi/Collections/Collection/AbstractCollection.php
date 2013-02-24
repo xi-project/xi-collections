@@ -21,7 +21,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
     {
         return new SimpleCollectionView($this, static::getCreator());
     }
-    
+
     public function apply($callback)
     {
         return static::create($callback($this));
@@ -36,6 +36,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
             }
             $results[$key] = $value;
         }
+
         return static::create($results);
     }
 
@@ -45,6 +46,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
         foreach ($this as $key => $value) {
             $results[$key] = $callback($value, $key);
         }
+
         return static::create($results);
     }
 
@@ -60,6 +62,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
                 $results[$key] = $value;
             }
         }
+
         return static::create($results);
     }
 
@@ -110,6 +113,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
         foreach ($other as $value) {
             $results[] = $value;
         }
+
         return static::create($results);
     }
 
@@ -119,6 +123,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
         foreach ($other as $key => $value) {
             $results[$key] = $value;
         }
+
         return static::create($results);
     }
 
@@ -128,6 +133,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
         foreach ($this as $value) {
             $results[] = $value;
         }
+
         return static::create($results);
     }
 
@@ -137,6 +143,7 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
         foreach ($this as $key => $value) {
             $results[] = $key;
         }
+
         return static::create($results);
     }
 
@@ -159,17 +166,17 @@ abstract class AbstractCollection extends AbstractEnumerable implements Collecti
     {
         return $this->map(Functions::pick($key));
     }
-    
+
     public function invoke($method)
     {
         return $this->map(Functions::invoke($method));
     }
-    
+
     public function flatten()
     {
         return $this->apply(Functions::flatten());
     }
-    
+
     public function unique($strict = true)
     {
         return $this->apply(Functions::unique($strict));

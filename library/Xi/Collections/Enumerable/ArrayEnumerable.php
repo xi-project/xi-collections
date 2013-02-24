@@ -36,6 +36,7 @@ class ArrayEnumerable implements Enumerable
     public function each($callback, $userdata = null)
     {
         array_walk($this->elements, $callback, $userdata);
+
         return $this;
     }
 
@@ -45,12 +46,14 @@ class ArrayEnumerable implements Enumerable
         foreach ($this->elements as $key => $value) {
             $result = $callback($result, $value, $key);
         }
+
         return $result;
     }
 
     public function tap($callback)
     {
         $callback($this);
+
         return $this;
     }
 
@@ -61,6 +64,7 @@ class ArrayEnumerable implements Enumerable
                 return true;
             }
         }
+
         return false;
     }
 
@@ -71,6 +75,7 @@ class ArrayEnumerable implements Enumerable
                 return false;
             }
         }
+
         return true;
     }
 
@@ -81,6 +86,7 @@ class ArrayEnumerable implements Enumerable
                 return $value;
             }
         }
+
         return null;
     }
 
@@ -102,6 +108,7 @@ class ArrayEnumerable implements Enumerable
                 $count++;
             }
         }
+
         return $count;
     }
 

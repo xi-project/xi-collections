@@ -6,13 +6,13 @@ use Xi\Collections\Enumerable\AbstractEnumerableTest,
 abstract class AbstractCollectionTest extends AbstractEnumerableTest
 {
     /**
-     * @param array $elements optional
+     * @param  array                      $elements optional
      * @return \Xi\Collections\Collection
      */
     abstract public function getCollection($elements = array());
 
     /**
-     * @param array $elements optional
+     * @param  array                      $elements optional
      * @return \Xi\Collections\Collection
      */
     public function getEnumerable($elements = array())
@@ -117,7 +117,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $result = $collection->flatMap(function($v) { return str_split($v); });
         $this->assertEquals($expected, $result->toArray());
     }
-    
+
     public function indexedIntegerIncrementSet()
     {
         return array(
@@ -126,7 +126,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array('foo' => 1, 'bar' => 2), array('foo' => 2, 'bar' => 3))
         );
     }
-    
+
     /**
      * @test
      * @dataProvider indexedIntegerIncrementSet
@@ -148,7 +148,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array('min' => 1, 'max' => 3), array('min' => 'min', 'max' => 'max')),
         );
     }
-    
+
     /**
      * @test
      * @dataProvider keyMapSet
@@ -246,7 +246,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array(1, 2, 3), array(1, 3)),
         );
     }
-    
+
     public function concatSet()
     {
         return array(
@@ -311,7 +311,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $result = $collection->keys();
         $this->assertEquals(array_keys($elements), $result->toArray());
     }
-    
+
     public function indexBySet()
     {
         return array(
@@ -321,7 +321,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array('foo' => 'bar', 'foo'), array('bar' => 'bar', 'foo' => 'foo'))
         );
     }
-    
+
     /**
      * @test
      * @dataProvider indexBySet
@@ -334,7 +334,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         });
         $this->assertEquals($expected, $result->toArray());
     }
-    
+
     public function groupBySet()
     {
         return array(
@@ -345,7 +345,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array('foo' => 'bar'), array('bar' => array('bar')))
         );
     }
-    
+
     /**
      * @test
      * @dataProvider groupBySet
@@ -362,7 +362,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         }
         $this->assertEquals($expected, $result);
     }
-    
+
     public function pickFromArraySet()
     {
         return array(
@@ -372,7 +372,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array(array('bar')), array(null)),
         );
     }
-    
+
     /**
      * @test
      * @dataProvider pickFromArraySet
@@ -383,7 +383,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $result = $collection->pick('foo');
         $this->assertEquals($expected, $result->toArray());
     }
-    
+
     public function pickFromObjectSet()
     {
         return array(
@@ -393,7 +393,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array((object) array('bar')), array(null)),
         );
     }
-    
+
     /**
      * @test
      * @dataProvider pickFromObjectSet
@@ -414,7 +414,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $result = $collection->invoke('__invoke');
         $this->assertEquals(array('foo'), $result->toArray());
     }
-    
+
     public function flattenArraySet()
     {
         return array(
@@ -424,7 +424,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             array(array('foo', array('bar')), array('foo', 'bar'))
         );
     }
-    
+
     /**
      * @test
      * @dataProvider flattenArraySet
@@ -435,7 +435,7 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
         $result = $collection->flatten();
         $this->assertEquals($expected, $result->toArray());
     }
-    
+
     public function flattenTraversableSet()
     {
         $set = $this->flattenArraySet();
@@ -443,11 +443,12 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
             list($elements, $expected) = $args;
             $set[$key] = array($this->traversable($elements), $expected);
         }
+
         return $set;
     }
-    
+
     /**
-     * @return \ArrayIterator 
+     * @return \ArrayIterator
      */
     private function traversable(array $items)
     {
@@ -458,9 +459,10 @@ abstract class AbstractCollectionTest extends AbstractEnumerableTest
                 $items[$key] = $value;
             }
         }
+
         return $items;
     }
-    
+
     /**
      * @test
      * @dataProvider flattenTraversableSet

@@ -1,9 +1,10 @@
 <?php
+
 namespace Xi\Collections\Collection;
 
-use Xi\Collections\Collection,
-    Xi\Collections\Util\Functions,
-    Xi\Collections\Enumerable\OuterEnumerable;
+use Xi\Collections\Collection;
+use Xi\Collections\Util\Functions;
+use Xi\Collections\Enumerable\OuterEnumerable;
 
 /**
  * Forwards all operations to another Collection provided at construction. In
@@ -35,9 +36,9 @@ class OuterCollection extends OuterEnumerable implements Collection
     }
 
     /**
-     * @param Collection $elements
+     * @param  Collection                $elements
      * @return OuterCollection
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public static function create($elements)
     {
@@ -46,7 +47,7 @@ class OuterCollection extends OuterEnumerable implements Collection
         }
         throw new \InvalidArgumentException("OuterCollection can only wrap Collection instances");
     }
-    
+
     public static function getCreator()
     {
         return Functions::getCallback(get_called_class(), 'create');
@@ -140,17 +141,17 @@ class OuterCollection extends OuterEnumerable implements Collection
     {
         return static::create($this->collection->pick($key));
     }
-    
+
     public function invoke($method)
     {
         return static::create($this->collection->invoke($method));
     }
-    
+
     public function flatten()
     {
         return static::create($this->collection->flatten());
     }
-    
+
     public function unique($strict = true)
     {
         return static::create($this->collection->unique($strict));

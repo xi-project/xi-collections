@@ -4,7 +4,7 @@ namespace Xi\Collections\Enumerable;
 abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param array $elements optional
+     * @param  array                      $elements optional
      * @return \Xi\Collections\Enumerable
      */
     abstract public function getEnumerable($elements = array());
@@ -16,7 +16,7 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
     {
         $result = null;
         $enum = $this->getEnumerable();
-        $enum->tap(function($v) use(&$result) {
+        $enum->tap(function($v) use (&$result) {
             $result = $v;
         });
         $this->assertSame($enum, $result);
@@ -56,7 +56,6 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($values, $result);
     }
 
-
     /**
      * @test
      * @dataProvider mixedElements
@@ -65,7 +64,7 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
     {
         $result = new \ArrayObject;
         $enum = $this->getEnumerable($values);
-        $enum->each(function($v, $k) use($result) {
+        $enum->each(function($v, $k) use ($result) {
             $result[$k] = $v;
         });
         $this->assertEquals($values, $result->getArrayCopy());
@@ -80,6 +79,7 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
         $enum = $this->getEnumerable($values);
         $result = $enum->reduce(function($result, $value, $key) {
             $result[$key] = $value;
+
             return $result;
         }, array());
         $this->assertEquals($result, $values);
@@ -139,7 +139,7 @@ abstract class AbstractEnumerableTest extends \PHPUnit_Framework_TestCase
         $result = $enum->exists('is_integer');
         $this->assertEquals(!empty($expect), $result);
     }
-    
+
     public function integerSets()
     {
         return array(

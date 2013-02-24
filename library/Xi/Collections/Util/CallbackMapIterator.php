@@ -1,10 +1,11 @@
 <?php
+
 namespace Xi\Collections\Util;
 
 class CallbackMapIterator extends \IteratorIterator
 {
     /**
-     * @var callback($value, $key)
+     * @var callable($value, $key)
      */
     protected $callback;
 
@@ -17,6 +18,7 @@ class CallbackMapIterator extends \IteratorIterator
     public function current()
     {
         $callback = $this->callback;
+
         return $callback(parent::current(), $this->key());
     }
 }

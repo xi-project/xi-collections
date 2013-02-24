@@ -1,4 +1,5 @@
 <?php
+
 namespace Xi\Collections\Util;
 
 /**
@@ -11,7 +12,7 @@ class LazyIterator extends \AppendIterator
     private $initialized = false;
 
     /**
-     * @param callback() $callback should return an Iterator
+     * @param callable $callback should return an Iterator
      */
     public function __construct($callback)
     {

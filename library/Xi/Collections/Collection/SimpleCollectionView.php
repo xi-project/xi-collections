@@ -1,18 +1,20 @@
 <?php
+
 namespace Xi\Collections\Collection;
+
 use Xi\Collections\Util;
 use Xi\Collections\CollectionView;
 
 class SimpleCollectionView extends SimpleCollection implements CollectionView
 {
     /**
-     * @var callback(Traversable) $creator
+     * @var callable(\Traversable) $creator
      */
     protected $creator;
 
     /**
-     * @param Traversable $traversable
-     * @param callback(Traversable) $creator optional
+     * @param \Traversable           $traversable
+     * @param callback(\Traversable) $creator     optional
      */
     public function __construct($traversable, $creator = null)
     {
@@ -26,6 +28,7 @@ class SimpleCollectionView extends SimpleCollection implements CollectionView
     public function force()
     {
         $creator = $this->creator;
+
         return $creator($this);
     }
 
@@ -37,7 +40,8 @@ class SimpleCollectionView extends SimpleCollection implements CollectionView
     public function apply($callback)
     {
         $self = $this;
-        return $this->lazy($this->getLazyIteratorFor(function() use($self, $callback) {
+
+        return $this->lazy($this->getLazyIteratorFor(function() use ($self, $callback) {
             return $callback($self);
         }));
     }
@@ -47,6 +51,7 @@ class SimpleCollectionView extends SimpleCollection implements CollectionView
         if (0 >= $number) {
             return $this->lazy(new \EmptyIterator);
         }
+
         return $this->lazy(new \LimitIterator($this->getIterator(), 0, $number));
     }
 
@@ -71,6 +76,7 @@ class SimpleCollectionView extends SimpleCollection implements CollectionView
         $iterator = new \AppendIterator;
         $iterator->append($this->getIterator());
         $iterator->append($this->getIteratorFor($other));
+
         return $this->lazy($this->getReindexIteratorFor($iterator));
     }
 
@@ -79,14 +85,19 @@ class SimpleCollectionView extends SimpleCollection implements CollectionView
         $iterator = new \AppendIterator;
         $iterator->append($this->getIterator());
         $iterator->append($this->getIteratorFor($other));
-        return $this->lazy($this->getLazyIteratorFor(function() use($iterator) {
+
+        return $this->lazy($this->getLazyIteratorFor(function() use ($iterator) {
             return iterator_to_array($iterator);
         }));
     }
 
     public function flatMap($callback)
     {
-        return $this->lazy($this->getReindexIteratorFor($this->getFlatMapIteratorFor($this->getIterator(), $callback)));
+        return $this->lazy(
+            $this->getReindexIteratorFor(
+                $this->getFlatMapIteratorFor($this->getIterator(), $callback)
+            )
+        );
     }
 
     public function values()
@@ -96,10 +107,16 @@ class SimpleCollectionView extends SimpleCollection implements CollectionView
 
     public function keys()
     {
-        return $this->lazy($this->getReindexIteratorFor($this->getMapIteratorFor(
-            $this->getIterator(),
-            function($v, $k) { return $k; }
-        )));
+        return $this->lazy(
+            $this->getReindexIteratorFor(
+                $this->getMapIteratorFor(
+                    $this->getIterator(),
+                    function ($v, $k) {
+                        return $k;
+                    }
+                )
+            )
+        );
     }
 
     protected function getIteratorFor($other)

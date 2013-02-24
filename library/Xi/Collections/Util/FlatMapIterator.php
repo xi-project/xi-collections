@@ -1,4 +1,5 @@
 <?php
+
 namespace Xi\Collections\Util;
 
 class FlatMapIterator extends \IteratorIterator implements \RecursiveIterator
@@ -20,6 +21,7 @@ class FlatMapIterator extends \IteratorIterator implements \RecursiveIterator
     {
         $callback = $this->callback;
         $children = $callback($this->current());
+
         return new static($this->getIteratorFor($children));
     }
 

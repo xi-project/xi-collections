@@ -1,4 +1,5 @@
 <?php
+
 namespace Xi\Collections\Enumerable;
 
 use Xi\Collections\Enumerable;
@@ -12,10 +13,11 @@ abstract class AbstractEnumerable implements Enumerable
     {
         return iterator_to_array($this->getIterator());
     }
-    
+
     public function tap($callback)
     {
         $callback($this);
+
         return $this;
     }
 
@@ -24,6 +26,7 @@ abstract class AbstractEnumerable implements Enumerable
         foreach ($this as $key => $value) {
             $callback($value, $key, $userdata);
         }
+
         return $this;
     }
 
@@ -33,6 +36,7 @@ abstract class AbstractEnumerable implements Enumerable
         foreach ($this as $key => $value) {
             $result = $callback($result, $value, $key);
         }
+
         return $result;
     }
 
@@ -43,6 +47,7 @@ abstract class AbstractEnumerable implements Enumerable
                 return $value;
             }
         }
+
         return null;
     }
 
@@ -53,6 +58,7 @@ abstract class AbstractEnumerable implements Enumerable
                 return true;
             }
         }
+
         return false;
     }
 
@@ -63,14 +69,16 @@ abstract class AbstractEnumerable implements Enumerable
                 return false;
             }
         }
+
         return true;
     }
-    
+
     public function first()
     {
         foreach ($this as $value) {
             return $value;
         }
+
         return null;
     }
 
@@ -80,6 +88,7 @@ abstract class AbstractEnumerable implements Enumerable
         foreach ($this as $value) {
             $result = $value;
         }
+
         return $result;
     }
 
@@ -91,6 +100,7 @@ abstract class AbstractEnumerable implements Enumerable
                 $count++;
             }
         }
+
         return $count;
     }
 

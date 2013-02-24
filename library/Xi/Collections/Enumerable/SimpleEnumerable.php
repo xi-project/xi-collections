@@ -1,4 +1,5 @@
 <?php
+
 namespace Xi\Collections\Enumerable;
 
 use Xi\Collections\Util\Functions;

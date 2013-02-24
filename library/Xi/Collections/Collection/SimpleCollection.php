@@ -1,5 +1,7 @@
 <?php
+
 namespace Xi\Collections\Collection;
+
 use Xi\Collections\Util\Functions;
 
 /**
@@ -30,7 +32,7 @@ class SimpleCollection extends AbstractCollection
     {
         return new static($elements);
     }
-    
+
     public static function getCreator()
     {
         return Functions::getCallback(get_called_class(), 'create');

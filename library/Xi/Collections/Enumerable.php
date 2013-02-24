@@ -1,4 +1,5 @@
 <?php
+
 namespace Xi\Collections;
 
 /**
@@ -15,7 +16,7 @@ interface Enumerable extends \IteratorAggregate, \Countable
      * Calls a provided callback with this object as a parameter. Can be used
      * for inspecting the object's state eg. for debugging purposes.
      *
-     * @param callback($self) $callback
+     * @param  callable($self) $callback
      * @return Enumerable
      */
     public function tap($callback);
@@ -23,8 +24,8 @@ interface Enumerable extends \IteratorAggregate, \Countable
     /**
      * Performs an operation once per key-value pair
      *
-     * @param callback($value, $key, $userdata) $callback
-     * @param mixed $userdata optional
+     * @param  callable($value, $key, $userdata) $callback
+     * @param  mixed      $userdata optional
      * @return Collection
      */
     public function each($callback, $userdata = null);
@@ -33,8 +34,8 @@ interface Enumerable extends \IteratorAggregate, \Countable
      * Uses a given callback to reduce the collection's elements to a single
      * value, starting from a provided initial value.
      *
-     * @param callback($accumulator, $value, $key) $callback
-     * @param mixed $initial optional
+     * @param  callable($accumulator, $value, $key) $callback
+     * @param  mixed $initial optional
      * @return mixed
      */
     public function reduce($callback, $initial = null);
@@ -42,7 +43,7 @@ interface Enumerable extends \IteratorAggregate, \Countable
     /**
      * Returns the first value that satisfies a given predicate
      *
-     * @param callback($value) $predicate
+     * @param  callable($value) $predicate
      * @return mixed|null
      */
     public function find($predicate);
@@ -51,7 +52,7 @@ interface Enumerable extends \IteratorAggregate, \Countable
      * Checks whether the collection has at least one element satisfying a given
      * predicate
      *
-     * @param callback($value) $predicate
+     * @param  callable($value) $predicate
      * @return boolean
      */
     public function exists($predicate);
@@ -60,7 +61,7 @@ interface Enumerable extends \IteratorAggregate, \Countable
      * Checks whether all of the elements in the collection satisfy a given
      * predicate
      *
-     * @param callback($value) $predicate
+     * @param  callable($value) $predicate
      * @return boolean
      */
     public function forAll($predicate);
@@ -69,7 +70,7 @@ interface Enumerable extends \IteratorAggregate, \Countable
      * Counts the amount of elements in the collection that satisfy a given
      * predicate
      *
-     * @param callback($value) $predicate
+     * @param  callable($value) $predicate
      * @return int
      */
     public function countAll($predicate);
